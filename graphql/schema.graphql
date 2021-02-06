@@ -4,15 +4,94 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 "A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
-type Query {
-    users: [User!]! @paginate(defaultCount: 10)
-    user(id: ID @eq): User @find
+
+type Query @guard {
+    users: [User!]! @all
+    priorities: [Priority!]! @all
+    tasks(where: _ @whereConditions(columns: ["priority_id"])): [Task!]! @all @orderBy(column: "deadline", direction: "ASC") @whereAuth(relation: "user")
+    user(id: Int! @eq): User @find
+    priority(id: Int! @eq): Priority @find
+    taskDetails(id: Int! @eq): Task @find @can(ability: "view",  model: "App\\Models\\Task", find: "id")
 }
 
 type User {
     id: ID!
-    name: String!
+    pseudo: String!
     email: String!
-    created_at: DateTime!
-    updated_at: DateTime!
+    resetToken: String
+    email_verified_at: DateTime
+    created_at: DateTime
+    updated_at: DateTime
+    tasks: [Task!]! @hasMany
+}
+
+type Priority {
+    id: ID!
+    label: String!
+    tasks: [Task!]! @hasMany
+}
+
+type Task {
+    id: ID!
+    title: String!
+    description: String!
+    deadline: DateTime!
+    done: Boolean
+    user: User! @belongsTo
+    priority: Priority! @belongsTo
+}
+
+type Mutation {
+    createUser(
+        pseudo: String! @rules(apply: ["unique:users"], messages: [
+            { 
+                rule: "unique"
+                message: "Pseudo existe déjà"
+            }
+        ])
+        email:  String! @rules(apply: ["email", "unique:users"], messages: [
+            { 
+                rule: "unique"
+                message: "Adresse email existe déjà"
+            }, 
+            {
+                rule: "email"
+                message: "Adresse email invalide"
+            }
+        ])
+        password: String! @rules(apply: ["min:6"], messages: [
+            { 
+                rule: "min"
+                message: "Mot de passe : 6 caractères minimum"
+            }
+        ])
+    ): Boolean! @field(resolver: "App\\GraphQL\\Mutations\\CreateUserMutator@create")
+    updatePassword(
+        oldPassword: String! @rules(apply: ["min:6"], messages: [
+            { 
+                rule: "min"
+                message: "Mot de passe : 6 caractères minimum"
+            }
+        ])
+        password: String! @rules(apply: ["min:6"], messages: [
+            { 
+                rule: "min"
+                message: "Mot de passe : 6 caractères minimum"
+            }
+        ])
+        passwordConfirm: String! @rules(apply: ["min:6"], messages: [
+            { 
+                rule: "min"
+                message: "Mot de passe : 6 caractères minimum"
+            }
+        ])
+    ): String! @guard @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@updatePassword")
+    login(  email: String!,  password: String! ): String @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@login")
+    logout: Boolean @guard @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@logout")
+    sendForgottenMail(email: String): String! @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@sendForgottenMail")
+    resetForgotten(newPassword: String!, newPasswordConfirm: String!, resetToken: String!): String! @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@resetForgotten")
+    createTask( title: String!, description: String!, deadline: DateTime!, priority_id: Int! ): Task @guard @field(resolver: "App\\GraphQL\\Mutations\\TaskMutator@create")
+    updateTask(  id: Int!, title: String!, description: String!, deadline: DateTime!, priority_id: Int ): Task @guard @update @guard @can(ability: "update",  model: "App\\Models\\Task", find: "id")
+    setFinishTask(id: Int!, done: Boolean!): Task @update @guard @can(ability: "setEnd",  model: "App\\Models\\Task", find: "id")
+    deleteTask(id: ID!): Task @delete @guard @can(ability: "delete",  model: "App\\Models\\Task", find: "id")
 }
