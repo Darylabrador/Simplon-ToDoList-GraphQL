@@ -23,9 +23,14 @@ class CreateUserMutator
      * Register user's resolver
      */
     public function create ($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo) {
-        $pseudo   = $args['pseudo'];
-        $email    = $args['email'];
-        $password = $args['password'];
+        $pseudo          = $args['pseudo'];
+        $email           = $args['email'];
+        $password        = $args['password'];
+        $passwordConfirm = $args['passwordConfirm'];
+
+        if ($password != $passwordConfirm) {
+            return null;
+        }
 
         User::create([
             "pseudo" => $pseudo,
@@ -33,6 +38,6 @@ class CreateUserMutator
             "password" => Hash::make($password)
         ]);
 
-        return true;
+        return "Vous pouvez à présent vous connecter";
     }
 }
