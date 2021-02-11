@@ -29,6 +29,7 @@ export default {
                             title 
                             description 
                             done 
+                            deadline
                             priority {
                                 id 
                                 label
@@ -43,7 +44,6 @@ export default {
                 const taskRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const taskData    =  taskRequest.data.data.tasks;
                 this.tasks = taskData;
-                console.log(this.tasks);
             } catch (error) {
                 this.flashMessage.error({
                     title: "Ressource indisponible",
@@ -51,7 +51,11 @@ export default {
                 })
             }
         },
-        addtask(){
+        addtask(val){
+            this.getTask();
+        },
+        updateTask(val){
+            console.log(val)
             this.getTask();
         }
     }

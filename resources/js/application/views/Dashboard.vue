@@ -5,7 +5,7 @@
         </div>
 
         <div v-for="task in tasks" :key="task.id">
-            <task :task='task' />    
+            <task :task='task'  @updateTask="updateTask" />    
         </div>
     </v-container>
 </template>

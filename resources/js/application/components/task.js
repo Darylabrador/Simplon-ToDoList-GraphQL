@@ -1,4 +1,9 @@
+import DetailTask from '../components/modals/DetailTask.vue';
+
 export default {
+    components: {
+        DetailTask
+    },
     props: {
         task: {
             default: function () {
@@ -6,13 +11,9 @@ export default {
             }
         },
     },
-    // data() {
-    //     return {}
-    // },
-    // created(){
-
-    // },
-    // methods:{
-
-    // }
+    methods:{
+        updateTask(taskUpdated){
+            this.$emit('updateTask', taskUpdated);
+        }
+    }
 }

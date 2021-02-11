@@ -1932,8 +1932,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  // props: {
-  // },
   data: function data() {
     return {
       isValid: false,
@@ -2029,12 +2027,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context2.prev = 0;
 
                 if (!_this2.isValid) {
-                  _context2.next = 14;
+                  _context2.next = 11;
                   break;
                 }
 
                 graphqlQuery = {
-                  query: "\n                        mutation{\n                            createTask(\n                                title: \"".concat(_this2.title, "\" \n                                description: \"").concat(_this2.description, "\" \n                                deadline: \"").concat(_this2.date, "\" \n                                priority_id: ").concat(_this2.priority, "\n                            )\n                            {id title description done priority{id label} user{id pseudo}}\n                        }")
+                  query: "\n                        mutation{\n                            createTask(\n                                title: \"".concat(_this2.title, "\" \n                                description: \"").concat(_this2.description, "\" \n                                deadline: \"").concat(_this2.date, "\" \n                                priority_id: ").concat(_this2.priority, "\n                            )\n                            {id title description deadline done priority{id label} user{id pseudo}}\n                        }")
                 };
                 _context2.next = 5;
                 return _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__.apiService.post("".concat(location.origin, "/graphql"), graphqlQuery);
@@ -2042,9 +2040,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 5:
                 addTaskRequest = _context2.sent;
                 addTaskData = addTaskRequest.data.data.createTask;
-                _this2.priority = '';
-                _this2.title = '';
-                _this2.description = '';
                 _this2.isValid = false;
                 _this2.dialog = false;
 
@@ -2055,26 +2050,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 _this2.$emit('addtask', addTaskData);
 
-              case 14:
-                _context2.next = 20;
+              case 11:
+                _context2.next = 16;
                 break;
 
-              case 16:
-                _context2.prev = 16;
+              case 13:
+                _context2.prev = 13;
                 _context2.t0 = _context2["catch"](0);
-                console.log(_context2.t0);
 
                 _this2.flashMessage.error({
                   title: "Ressource indisponible",
                   time: 8000
                 });
 
-              case 20:
+              case 16:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 16]]);
+        }, _callee2, null, [[0, 13]]);
       }))();
     },
     isEmpty: function isEmpty(title, description, date, priority) {
@@ -2083,6 +2077,160 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.isValid = false;
       }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/components/modals/detailTask.js?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/components/modals/detailTask.js?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../_services/apiService.js */ "./resources/js/application/_services/apiService.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    taskInfo: {
+      "default": function _default() {
+        return {};
+      }
+    }
+  },
+  data: function data() {
+    return {
+      isUpdate: false,
+      dialog: false,
+      menu2: false,
+      date: this.taskInfo.deadline,
+      priority: this.taskInfo.priority.id,
+      title: this.taskInfo.title,
+      description: this.taskInfo.description,
+      items: [this.taskInfo.priority],
+      titleRules: [function (v) {
+        return !!v || 'Le titre est requis';
+      }],
+      priorityRules: [function (v) {
+        return !!v || 'Veuillez choisir la priorité';
+      }],
+      descriptionRules: [function (v) {
+        return !!v || 'La description est requise';
+      }]
+    };
+  },
+  watch: {
+    isUpdate: function isUpdate(val) {
+      if (val) {
+        this.setSelectPriority();
+      } else {
+        this.priority = this.taskInfo.priority.id;
+        this.items = [this.taskInfo.priority];
+      }
+    }
+  },
+  methods: {
+    closeModal: function closeModal() {
+      this.dialog = false;
+      this.isUpdate = false;
+    },
+    setSelectPriority: function setSelectPriority() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var graphqlQuery, selectRequest, selectData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                graphqlQuery = {
+                  query: "{priorities{id label}} "
+                };
+                _context.next = 4;
+                return _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__.apiService.post("".concat(location.origin, "/graphql"), graphqlQuery);
+
+              case 4:
+                selectRequest = _context.sent;
+                selectData = selectRequest.data.data.priorities;
+                _this.items = selectData;
+                _context.next = 12;
+                break;
+
+              case 9:
+                _context.prev = 9;
+                _context.t0 = _context["catch"](0);
+
+                _this.flashMessage.error({
+                  title: "Ressource indisponible",
+                  time: 8000
+                });
+
+              case 12:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 9]]);
+      }))();
+    },
+    updateTask: function updateTask() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var graphqlQuery, updateRequest, updateData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                graphqlQuery = {
+                  query: "\n                    mutation{\n                        updateTask(\n                            id: ".concat(_this2.taskInfo.id, " \n                            title: \"").concat(_this2.title, "\" \n                            description:\"").concat(_this2.description, "\"\n                            deadline: \"").concat(_this2.date, "\"\n                            priority_id: ").concat(_this2.priority, "\n                        )\n                        {id title description done deadline priority{id label} user{id pseudo}}\n                    }")
+                };
+                _context2.next = 4;
+                return _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__.apiService.post("".concat(location.origin, "/graphql"), graphqlQuery);
+
+              case 4:
+                updateRequest = _context2.sent;
+                updateData = updateRequest.data.data.updateTask;
+
+                _this2.$emit('updateTask', updateData);
+
+                _this2.closeModal();
+
+                _context2.next = 13;
+                break;
+
+              case 10:
+                _context2.prev = 10;
+                _context2.t0 = _context2["catch"](0);
+
+                _this2.flashMessage.error({
+                  title: "Ressource indisponible",
+                  time: 8000
+                });
+
+              case 13:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 10]]);
+      }))();
     }
   }
 });
@@ -2100,21 +2248,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_modals_DetailTask_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/modals/DetailTask.vue */ "./resources/js/application/components/modals/DetailTask.vue");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    DetailTask: _components_modals_DetailTask_vue__WEBPACK_IMPORTED_MODULE_0__.default
+  },
   props: {
     task: {
       "default": function _default() {
         return {};
       }
     }
-  } // data() {
-  //     return {}
-  // },
-  // created(){
-  // },
-  // methods:{
-  // }
-
+  },
+  methods: {
+    updateTask: function updateTask(taskUpdated) {
+      this.$emit('updateTask', taskUpdated);
+    }
+  }
 });
 
 /***/ }),
@@ -2597,7 +2748,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.prev = 0;
                 graphqlQuery = {
-                  query: "\n                    { \n                        tasks { \n                            id \n                            title \n                            description \n                            done \n                            priority {\n                                id \n                                label\n                            } \n                            user {\n                                id \n                                pseudo\n                            }\n                        }\n                    }"
+                  query: "\n                    { \n                        tasks { \n                            id \n                            title \n                            description \n                            done \n                            deadline\n                            priority {\n                                id \n                                label\n                            } \n                            user {\n                                id \n                                pseudo\n                            }\n                        }\n                    }"
                 };
                 _context.next = 4;
                 return _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__.apiService.post("".concat(location.origin, "/graphql"), graphqlQuery);
@@ -2606,12 +2757,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 taskRequest = _context.sent;
                 taskData = taskRequest.data.data.tasks;
                 _this.tasks = taskData;
-                console.log(_this.tasks);
-                _context.next = 13;
+                _context.next = 12;
                 break;
 
-              case 10:
-                _context.prev = 10;
+              case 9:
+                _context.prev = 9;
                 _context.t0 = _context["catch"](0);
 
                 _this.flashMessage.error({
@@ -2619,15 +2769,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   time: 8000
                 });
 
-              case 13:
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 10]]);
+        }, _callee, null, [[0, 9]]);
       }))();
     },
-    addtask: function addtask() {
+    addtask: function addtask(val) {
+      this.getTask();
+    },
+    updateTask: function updateTask(val) {
+      console.log(val);
       this.getTask();
     }
   }
@@ -21282,6 +21436,45 @@ component.options.__file = "resources/js/application/components/modals/AddTask.v
 
 /***/ }),
 
+/***/ "./resources/js/application/components/modals/DetailTask.vue":
+/*!*******************************************************************!*\
+  !*** ./resources/js/application/components/modals/DetailTask.vue ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _DetailTask_vue_vue_type_template_id_9c1984fa___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DetailTask.vue?vue&type=template&id=9c1984fa& */ "./resources/js/application/components/modals/DetailTask.vue?vue&type=template&id=9c1984fa&");
+/* harmony import */ var _detailTask_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./detailTask.js?vue&type=script&lang=js& */ "./resources/js/application/components/modals/detailTask.js?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _detailTask_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _DetailTask_vue_vue_type_template_id_9c1984fa___WEBPACK_IMPORTED_MODULE_0__.render,
+  _DetailTask_vue_vue_type_template_id_9c1984fa___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/application/components/modals/DetailTask.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/application/connexion/Login.vue":
 /*!******************************************************!*\
   !*** ./resources/js/application/connexion/Login.vue ***!
@@ -21454,6 +21647,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/application/components/modals/detailTask.js?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/application/components/modals/detailTask.js?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_detailTask_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./detailTask.js?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/components/modals/detailTask.js?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_detailTask_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/application/components/task.js?vue&type=script&lang=js&":
 /*!******************************************************************************!*\
   !*** ./resources/js/application/components/task.js?vue&type=script&lang=js& ***!
@@ -21568,6 +21777,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/application/components/modals/DetailTask.vue?vue&type=template&id=9c1984fa&":
+/*!**************************************************************************************************!*\
+  !*** ./resources/js/application/components/modals/DetailTask.vue?vue&type=template&id=9c1984fa& ***!
+  \**************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailTask_vue_vue_type_template_id_9c1984fa___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailTask_vue_vue_type_template_id_9c1984fa___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DetailTask_vue_vue_type_template_id_9c1984fa___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DetailTask.vue?vue&type=template&id=9c1984fa& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/components/modals/DetailTask.vue?vue&type=template&id=9c1984fa&");
+
+
+/***/ }),
+
 /***/ "./resources/js/application/connexion/Login.vue?vue&type=template&id=41d7a4b6&":
 /*!*************************************************************************************!*\
   !*** ./resources/js/application/connexion/Login.vue?vue&type=template&id=41d7a4b6& ***!
@@ -21673,12 +21899,10 @@ var render = function() {
                   _c(
                     "v-list-item-title",
                     [
-                      _c(
-                        "v-btn",
-                        { attrs: { icon: "", color: "dark" } },
-                        [_c("v-icon", [_vm._v("mdi-eye")])],
-                        1
-                      ),
+                      _c("detailTask", {
+                        attrs: { taskInfo: _vm.task },
+                        on: { updateTask: _vm.updateTask }
+                      }),
                       _vm._v(
                         "\n                    " +
                           _vm._s(_vm.task.title) +
@@ -22044,6 +22268,332 @@ var render = function() {
                         },
                         [_vm._v(" Ajouter ")]
                       )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/components/modals/DetailTask.vue?vue&type=template&id=9c1984fa&":
+/*!*****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/components/modals/DetailTask.vue?vue&type=template&id=9c1984fa& ***!
+  \*****************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-dialog",
+    {
+      attrs: { persistent: "", "max-width": "450" },
+      scopedSlots: _vm._u([
+        {
+          key: "activator",
+          fn: function(ref) {
+            var on = ref.on
+            var attrs = ref.attrs
+            return [
+              _c(
+                "v-btn",
+                _vm._g(
+                  _vm._b(
+                    { attrs: { icon: "", color: "dark" } },
+                    "v-btn",
+                    attrs,
+                    false
+                  ),
+                  on
+                ),
+                [_c("v-icon", [_vm._v("mdi-eye")])],
+                1
+              )
+            ]
+          }
+        }
+      ]),
+      model: {
+        value: _vm.dialog,
+        callback: function($$v) {
+          _vm.dialog = $$v
+        },
+        expression: "dialog"
+      }
+    },
+    [
+      _vm._v(" "),
+      _c(
+        "v-card",
+        [
+          _c(
+            "v-card-title",
+            { staticClass: "title" },
+            [
+              _c(
+                "v-row",
+                [
+                  _c("v-col", [
+                    _vm._v("\n                Tâche à effectuer\n            ")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "text-right" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { icon: "", color: "dark", text: "" },
+                          on: { click: _vm.closeModal }
+                        },
+                        [_vm._v(" X ")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("hr", { staticClass: "grey lighten-2" }),
+          _vm._v(" "),
+          _c(
+            "v-card-actions",
+            [
+              _c(
+                "v-form",
+                {
+                  ref: "form",
+                  staticClass: "formWidth",
+                  attrs: { "lazy-validation": "" }
+                },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      disabled: !_vm.isUpdate,
+                      label: "Titre",
+                      required: "",
+                      rules: _vm.titleRules
+                    },
+                    model: {
+                      value: _vm.title,
+                      callback: function($$v) {
+                        _vm.title = $$v
+                      },
+                      expression: "title"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "5" } },
+                        [
+                          _c("v-select", {
+                            attrs: {
+                              disabled: !_vm.isUpdate,
+                              items: _vm.items,
+                              label: "Priorité",
+                              required: "",
+                              "item-text": "label",
+                              "item-value": "id",
+                              rules: _vm.priorityRules,
+                              "persistent-hint": ""
+                            },
+                            model: {
+                              value: _vm.priority,
+                              callback: function($$v) {
+                                _vm.priority = $$v
+                              },
+                              expression: "priority"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        [
+                          _c(
+                            "v-menu",
+                            {
+                              attrs: {
+                                "close-on-content-click": false,
+                                "nudge-right": 40,
+                                transition: "scale-transition",
+                                "offset-y": "",
+                                "min-width": "auto"
+                              },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "activator",
+                                  fn: function(ref) {
+                                    var on = ref.on
+                                    var attrs = ref.attrs
+                                    return [
+                                      _c(
+                                        "v-text-field",
+                                        _vm._g(
+                                          _vm._b(
+                                            {
+                                              attrs: {
+                                                disabled: !_vm.isUpdate,
+                                                label: "Deadline",
+                                                "prepend-icon": "mdi-calendar",
+                                                readonly: ""
+                                              },
+                                              model: {
+                                                value: _vm.date,
+                                                callback: function($$v) {
+                                                  _vm.date = $$v
+                                                },
+                                                expression: "date"
+                                              }
+                                            },
+                                            "v-text-field",
+                                            attrs,
+                                            false
+                                          ),
+                                          on
+                                        )
+                                      )
+                                    ]
+                                  }
+                                }
+                              ]),
+                              model: {
+                                value: _vm.menu2,
+                                callback: function($$v) {
+                                  _vm.menu2 = $$v
+                                },
+                                expression: "menu2"
+                              }
+                            },
+                            [
+                              _vm._v(" "),
+                              _c("v-date-picker", {
+                                attrs: { disabled: !_vm.isUpdate },
+                                on: {
+                                  input: function($event) {
+                                    _vm.menu2 = false
+                                  }
+                                },
+                                model: {
+                                  value: _vm.date,
+                                  callback: function($$v) {
+                                    _vm.date = $$v
+                                  },
+                                  expression: "date"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-textarea", {
+                    attrs: {
+                      disabled: !_vm.isUpdate,
+                      "auto-grow": "",
+                      "clear-icon": "mdi-close-circle",
+                      label: "Description",
+                      rows: "3",
+                      required: "",
+                      rules: _vm.descriptionRules
+                    },
+                    model: {
+                      value: _vm.description,
+                      callback: function($$v) {
+                        _vm.description = $$v
+                      },
+                      expression: "description"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "d-flex justify-end my-2 w-100" },
+                    [
+                      _vm.isUpdate
+                        ? _c(
+                            "v-btn",
+                            {
+                              staticClass: "mr-2",
+                              attrs: { small: "", color: "blue-grey" },
+                              on: {
+                                click: function($event) {
+                                  _vm.isUpdate = false
+                                }
+                              }
+                            },
+                            [_vm._v(" Annuler ")]
+                          )
+                        : _c(
+                            "v-btn",
+                            {
+                              staticClass: "mr-2",
+                              attrs: { small: "", color: "blue-grey" },
+                              on: { click: _vm.closeModal }
+                            },
+                            [_vm._v(" Annuler ")]
+                          ),
+                      _vm._v(" "),
+                      !_vm.isUpdate
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: { small: "", color: "primary" },
+                              on: {
+                                click: function($event) {
+                                  _vm.isUpdate = true
+                                }
+                              }
+                            },
+                            [_vm._v(" Modifier ")]
+                          )
+                        : _c(
+                            "v-btn",
+                            {
+                              attrs: { small: "", color: "primary" },
+                              on: { click: _vm.updateTask }
+                            },
+                            [_vm._v(" Sauvegarder ")]
+                          )
                     ],
                     1
                   )
@@ -22554,7 +23104,12 @@ var render = function() {
         return _c(
           "div",
           { key: task.id },
-          [_c("task", { attrs: { task: task } })],
+          [
+            _c("task", {
+              attrs: { task: task },
+              on: { updateTask: _vm.updateTask }
+            })
+          ],
           1
         )
       })

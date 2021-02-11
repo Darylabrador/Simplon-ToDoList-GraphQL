@@ -1,9 +1,6 @@
 import {apiService} from '../../_services/apiService.js';
 
 export default{
-    // props: {
-
-    // },
     data() {
         return {
             isValid: false,
@@ -74,14 +71,11 @@ export default{
                                 deadline: "${this.date}" 
                                 priority_id: ${this.priority}
                             )
-                            {id title description done priority{id label} user{id pseudo}}
+                            {id title description deadline done priority{id label} user{id pseudo}}
                         }`
                     };
                     const addTaskRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                     const addTaskData = addTaskRequest.data.data.createTask;
-                    this.priority    = '';
-                    this.title       = '';
-                    this.description = '';
                     this.isValid     = false;
                     this.dialog      = false;
                     this.flashMessage.success({
@@ -91,7 +85,6 @@ export default{
                     this.$emit('addtask', addTaskData);
                 }
             } catch (error) {
-                console.log(error)
                 this.flashMessage.error({
                     title: "Ressource indisponible",
                     time: 8000,

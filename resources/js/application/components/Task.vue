@@ -4,9 +4,7 @@
             <v-list-item class="grow">
                 <v-list-item-content>
                     <v-list-item-title>
-                        <v-btn icon color="dark">
-                            <v-icon>mdi-eye</v-icon>
-                        </v-btn>
+                        <detailTask :taskInfo="task" @updateTask="updateTask" />
                         {{ task.title }} 
                     </v-list-item-title>
                 </v-list-item-content>
