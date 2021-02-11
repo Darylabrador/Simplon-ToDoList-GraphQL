@@ -35,7 +35,7 @@ type Task {
     id: ID!
     title: String!
     description: String!
-    deadline: DateTime!
+    deadline: Date!
     done: Boolean
     user: User! @belongsTo
     priority: Priority! @belongsTo
@@ -96,8 +96,8 @@ type Mutation {
     logout: Boolean @guard @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@logout")
     sendForgottenMail(email: String): String! @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@sendForgottenMail")
     resetForgotten(newPassword: String!, newPasswordConfirm: String!, resetToken: String!): String! @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@resetForgotten")
-    createTask( title: String!, description: String!, deadline: DateTime!, priority_id: Int! ): Task @guard @field(resolver: "App\\GraphQL\\Mutations\\TaskMutator@create")
-    updateTask(id: Int!, title: String!, description: String!, deadline: DateTime!, priority_id: Int ): Task @guard @update @guard @can(ability: "update",  model: "App\\Models\\Task", find: "id")
+    createTask( title: String!, description: String!, deadline: Date!, priority_id: Int! ): Task @guard @field(resolver: "App\\GraphQL\\Mutations\\TaskMutator@create")
+    updateTask(id: Int!, title: String!, description: String!, deadline: Date!, priority_id: Int ): Task @guard @update @guard @can(ability: "update",  model: "App\\Models\\Task", find: "id")
     setFinishTask(id: Int!, done: Boolean!): Task @update @guard @can(ability: "setEnd",  model: "App\\Models\\Task", find: "id")
     deleteTask(id: ID!): Task @delete @guard @can(ability: "delete",  model: "App\\Models\\Task", find: "id")
 }

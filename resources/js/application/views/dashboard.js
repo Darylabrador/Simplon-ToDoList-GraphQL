@@ -1,9 +1,11 @@
 import { apiService } from '../_services/apiService.js';
 import Task from '../components/Task.vue';
+import AddTask from '../components/modals/AddTask.vue';
 
 export default {
     components: {
-        Task
+        Task,
+        AddTask
     },
 
     data() {
@@ -48,6 +50,9 @@ export default {
                     time: 8000,
                 })
             }
+        },
+        addtask(){
+            this.getTask();
         }
     }
 }

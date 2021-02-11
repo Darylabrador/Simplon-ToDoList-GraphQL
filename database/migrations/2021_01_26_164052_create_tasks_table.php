@@ -17,7 +17,7 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->dateTime('deadline');
+            $table->date('deadline');
             $table->boolean('done')->default(0);
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('priority_id')->nullable()->constrained()->onDelete('SET NULL');
