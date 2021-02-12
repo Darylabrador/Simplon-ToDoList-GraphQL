@@ -31,7 +31,7 @@ mutation{
 
 {
 tasks(where: { column: PRIORITY_ID, operator: EQ, value: 1 }) {
-    id title description done priority{id label} user{id pseudo}
+    id title description done deadline priority{id label} user{id pseudo}
   }
 }
 
@@ -44,7 +44,7 @@ mutation{
   	deadline:"2021-02-04 20:31:30"
     priority_id: 1
   )
-  {id title description done priority{id label} user{id pseudo}}
+  {id title description done deadline priority{id label} user{id pseudo}}
 }
 
 
@@ -58,21 +58,19 @@ mutation{
     deadline: "2021-02-24 17:11:30"
     priority_id: 3
   )
-  {id title description done priority{id label} user{id pseudo}}
+  {id title description done deadline priority{id label} user{id pseudo}}
 }
 
 ### Noté une todo comme exécutée
 
 mutation{
-  setEndTask(id: 2 done: false)
-  {id title description done priority{id label} user{id pseudo}}
+  setTaskStatus(id: 2 done: false)
+  {id title description done deadline priority{id label} user{id pseudo}}
 }
 
 ### Supprimer une todo (softdelete)
 
 mutation{
-  deleteTask(
-    id: 2 
-  )
-  {id title description done priority{id label} user{id pseudo}}
+  deleteTask( id: 2 )
+  {id title description done deadline priority{id label} user{id pseudo}}
 }
