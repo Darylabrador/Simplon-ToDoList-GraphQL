@@ -55,7 +55,15 @@ export default {
             this.getTask();
         },
         updateTask(val){
-            console.log(val)
+            this.getTask();
+        },
+        undoTask(val){
+            this.getTask();
+        },
+        finishTask(val){
+            this.getTask();
+        },
+        deleteTask(val) {
             this.getTask();
         }
     }

@@ -2083,6 +2083,94 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/components/modals/deleteTask.js?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/components/modals/deleteTask.js?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../_services/apiService.js */ "./resources/js/application/_services/apiService.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    taskId: {
+      "default": function _default() {
+        return {};
+      }
+    },
+    taskTitle: {
+      "default": function _default() {
+        return {};
+      }
+    }
+  },
+  data: function data() {
+    return {
+      dialog: false
+    };
+  },
+  methods: {
+    deleteTask: function deleteTask() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var graphqlQuery, deleteRequest, deleteData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                graphqlQuery = {
+                  query: "\n                    mutation{\n                        deleteTask( id: ".concat(_this.taskId, " )\n                        {id title description deadline done priority{id label} user{id pseudo}}\n                    }")
+                };
+                _context.next = 4;
+                return _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__.apiService.post("".concat(location.origin, "/graphql"), graphqlQuery);
+
+              case 4:
+                deleteRequest = _context.sent;
+                deleteData = deleteRequest.data.data.setTaskStatus;
+
+                _this.$emit('deleteTask', deleteData);
+
+                _this.dialog = false;
+                _context.next = 13;
+                break;
+
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](0);
+
+                _this.flashMessage.error({
+                  title: "Ressource indisponible",
+                  time: 8000
+                });
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 10]]);
+      }))();
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/components/modals/detailTask.js?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/components/modals/detailTask.js?vue&type=script&lang=js& ***!
@@ -2248,11 +2336,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _components_modals_DetailTask_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/modals/DetailTask.vue */ "./resources/js/application/components/modals/DetailTask.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_services/apiService.js */ "./resources/js/application/_services/apiService.js");
+/* harmony import */ var _components_modals_DetailTask_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/modals/DetailTask.vue */ "./resources/js/application/components/modals/DetailTask.vue");
+/* harmony import */ var _components_modals_DeleteTask_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/modals/DeleteTask.vue */ "./resources/js/application/components/modals/DeleteTask.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    DetailTask: _components_modals_DetailTask_vue__WEBPACK_IMPORTED_MODULE_0__.default
+    DetailTask: _components_modals_DetailTask_vue__WEBPACK_IMPORTED_MODULE_2__.default,
+    DeleteTask: _components_modals_DeleteTask_vue__WEBPACK_IMPORTED_MODULE_3__.default
   },
   props: {
     task: {
@@ -2264,6 +2365,93 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     updateTask: function updateTask(taskUpdated) {
       this.$emit('updateTask', taskUpdated);
+    },
+    undoTask: function undoTask(taskId) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var graphqlQuery, undoRequest, undoData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                graphqlQuery = {
+                  query: "\n                    mutation{\n                        setTaskStatus(\n                            id: ".concat(taskId, "\n                            done: false\n                        )\n                        {id title description deadline done priority{id label} user{id pseudo}}\n                    }")
+                };
+                _context.next = 4;
+                return _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__.apiService.post("".concat(location.origin, "/graphql"), graphqlQuery);
+
+              case 4:
+                undoRequest = _context.sent;
+                undoData = undoRequest.data.data.setTaskStatus;
+
+                _this.$emit('undoTask', undoData);
+
+                _context.next = 12;
+                break;
+
+              case 9:
+                _context.prev = 9;
+                _context.t0 = _context["catch"](0);
+
+                _this.flashMessage.error({
+                  title: "Ressource indisponible",
+                  time: 8000
+                });
+
+              case 12:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 9]]);
+      }))();
+    },
+    finish: function finish(taskId) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var graphqlQuery, finishRequest, finishData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                graphqlQuery = {
+                  query: "\n                mutation{\n                    setTaskStatus(\n                        id: ".concat(taskId, "\n                        done: true\n                    )\n                    {id title description deadline done priority{id label} user{id pseudo}}\n                }")
+                };
+                _context2.next = 4;
+                return _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__.apiService.post("".concat(location.origin, "/graphql"), graphqlQuery);
+
+              case 4:
+                finishRequest = _context2.sent;
+                finishData = finishRequest.data.data.setTaskStatus;
+
+                _this2.$emit('finishTask', finishData);
+
+                _context2.next = 12;
+                break;
+
+              case 9:
+                _context2.prev = 9;
+                _context2.t0 = _context2["catch"](0);
+
+                _this2.flashMessage.error({
+                  title: "Ressource indisponible",
+                  time: 8000
+                });
+
+              case 12:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 9]]);
+      }))();
+    },
+    deleteTask: function deleteTask(val) {
+      this.$emit('deleteTask', val);
     }
   }
 });
@@ -2781,7 +2969,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.getTask();
     },
     updateTask: function updateTask(val) {
-      console.log(val);
+      this.getTask();
+    },
+    undoTask: function undoTask(val) {
+      this.getTask();
+    },
+    finishTask: function finishTask(val) {
+      this.getTask();
+    },
+    deleteTask: function deleteTask(val) {
       this.getTask();
     }
   }
@@ -21436,6 +21632,45 @@ component.options.__file = "resources/js/application/components/modals/AddTask.v
 
 /***/ }),
 
+/***/ "./resources/js/application/components/modals/DeleteTask.vue":
+/*!*******************************************************************!*\
+  !*** ./resources/js/application/components/modals/DeleteTask.vue ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _DeleteTask_vue_vue_type_template_id_3941b0dd___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DeleteTask.vue?vue&type=template&id=3941b0dd& */ "./resources/js/application/components/modals/DeleteTask.vue?vue&type=template&id=3941b0dd&");
+/* harmony import */ var _deleteTask_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./deleteTask.js?vue&type=script&lang=js& */ "./resources/js/application/components/modals/deleteTask.js?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _deleteTask_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _DeleteTask_vue_vue_type_template_id_3941b0dd___WEBPACK_IMPORTED_MODULE_0__.render,
+  _DeleteTask_vue_vue_type_template_id_3941b0dd___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/application/components/modals/DeleteTask.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/application/components/modals/DetailTask.vue":
 /*!*******************************************************************!*\
   !*** ./resources/js/application/components/modals/DetailTask.vue ***!
@@ -21647,6 +21882,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/application/components/modals/deleteTask.js?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/application/components/modals/deleteTask.js?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_deleteTask_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./deleteTask.js?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/components/modals/deleteTask.js?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_deleteTask_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/application/components/modals/detailTask.js?vue&type=script&lang=js&":
 /*!*******************************************************************************************!*\
   !*** ./resources/js/application/components/modals/detailTask.js?vue&type=script&lang=js& ***!
@@ -21773,6 +22024,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddTask_vue_vue_type_template_id_d47cbdee___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddTask_vue_vue_type_template_id_d47cbdee___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AddTask.vue?vue&type=template&id=d47cbdee& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/components/modals/AddTask.vue?vue&type=template&id=d47cbdee&");
+
+
+/***/ }),
+
+/***/ "./resources/js/application/components/modals/DeleteTask.vue?vue&type=template&id=3941b0dd&":
+/*!**************************************************************************************************!*\
+  !*** ./resources/js/application/components/modals/DeleteTask.vue?vue&type=template&id=3941b0dd& ***!
+  \**************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteTask_vue_vue_type_template_id_3941b0dd___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteTask_vue_vue_type_template_id_3941b0dd___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteTask_vue_vue_type_template_id_3941b0dd___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./DeleteTask.vue?vue&type=template&id=3941b0dd& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/components/modals/DeleteTask.vue?vue&type=template&id=3941b0dd&");
 
 
 /***/ }),
@@ -21920,18 +22188,22 @@ var render = function() {
                 { attrs: { align: "center", justify: "end" } },
                 [
                   _vm.task.done
-                    ? _c(
-                        "v-btn",
-                        { attrs: { icon: "", color: "dark" } },
-                        [_c("v-icon", [_vm._v("mdi-check")])],
-                        1
-                      )
+                    ? _c("v-icon", { attrs: { color: "dark" } }, [
+                        _vm._v("mdi-check")
+                      ])
                     : _vm._e(),
                   _vm._v(" "),
                   _vm.task.done
                     ? _c(
                         "v-btn",
-                        { attrs: { icon: "", color: "dark" } },
+                        {
+                          attrs: { icon: "", color: "dark" },
+                          on: {
+                            click: function($event) {
+                              return _vm.undoTask(_vm.task.id)
+                            }
+                          }
+                        },
                         [_c("v-icon", [_vm._v("mdi-close-circle-outline")])],
                         1
                       )
@@ -21940,7 +22212,14 @@ var render = function() {
                   !_vm.task.done
                     ? _c(
                         "v-btn",
-                        { attrs: { icon: "", color: "dark" } },
+                        {
+                          attrs: { icon: "", color: "dark" },
+                          on: {
+                            click: function($event) {
+                              return _vm.finish(_vm.task.id)
+                            }
+                          }
+                        },
                         [
                           _c("v-icon", [
                             _vm._v("mdi-checkbox-marked-circle-outline")
@@ -21950,12 +22229,10 @@ var render = function() {
                       )
                     : _vm._e(),
                   _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    { attrs: { icon: "", color: "dark" } },
-                    [_c("v-icon", [_vm._v("mdi-trash-can-outline")])],
-                    1
-                  )
+                  _c("deleteTask", {
+                    attrs: { taskId: _vm.task.id, taskTitle: _vm.task.title },
+                    on: { deleteTask: _vm.deleteTask }
+                  })
                 ],
                 1
               )
@@ -22273,6 +22550,164 @@ var render = function() {
                   )
                 ],
                 1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/components/modals/DeleteTask.vue?vue&type=template&id=3941b0dd&":
+/*!*****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/components/modals/DeleteTask.vue?vue&type=template&id=3941b0dd& ***!
+  \*****************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-dialog",
+    {
+      attrs: { persistent: "", "max-width": "450" },
+      scopedSlots: _vm._u([
+        {
+          key: "activator",
+          fn: function(ref) {
+            var on = ref.on
+            var attrs = ref.attrs
+            return [
+              _c(
+                "v-btn",
+                _vm._g(
+                  _vm._b(
+                    { attrs: { icon: "", color: "dark" } },
+                    "v-btn",
+                    attrs,
+                    false
+                  ),
+                  on
+                ),
+                [_c("v-icon", [_vm._v("mdi-trash-can-outline")])],
+                1
+              )
+            ]
+          }
+        }
+      ]),
+      model: {
+        value: _vm.dialog,
+        callback: function($$v) {
+          _vm.dialog = $$v
+        },
+        expression: "dialog"
+      }
+    },
+    [
+      _vm._v(" "),
+      _c(
+        "v-card",
+        [
+          _c(
+            "v-card-title",
+            { staticClass: "title" },
+            [
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { staticClass: "text-right" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { icon: "", color: "dark", text: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                            }
+                          }
+                        },
+                        [_vm._v(" X ")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-card-actions",
+            [
+              _c(
+                "v-form",
+                {
+                  ref: "form",
+                  staticClass: "formWidth",
+                  attrs: { "lazy-validation": "" }
+                },
+                [
+                  _c("h4", { staticClass: "text-center" }, [
+                    _vm._v(" Voulez-vous vraiment supprimer cette tâche ? ")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "text-center" }, [
+                    _vm._v(" " + _vm._s(_vm.taskTitle) + " ")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "d-flex justify-end my-2 w-100" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mr-3",
+                          attrs: { small: "", color: "blue-grey" },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                            }
+                          }
+                        },
+                        [_vm._v(" Non ")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { small: "", color: "primary" },
+                          on: { click: _vm.deleteTask }
+                        },
+                        [_vm._v(" Oui ")]
+                      )
+                    ],
+                    1
+                  )
+                ]
               )
             ],
             1
@@ -23107,7 +23542,12 @@ var render = function() {
           [
             _c("task", {
               attrs: { task: task },
-              on: { updateTask: _vm.updateTask }
+              on: {
+                updateTask: _vm.updateTask,
+                undoTask: _vm.undoTask,
+                finishTask: _vm.finishTask,
+                deleteTask: _vm.deleteTask
+              }
             })
           ],
           1

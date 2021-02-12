@@ -16,7 +16,7 @@ class TaskPolicy
         return $user->id == $task->user_id;
     }
 
-    public function setEnd(User $user, Task $task)
+    public function setStatus(User $user, Task $task)
     {
         return $user->id == $task->user_id;
     }

@@ -9,18 +9,14 @@
                     </v-list-item-title>
                 </v-list-item-content>
                 <v-row align="center" justify="end">
-                        <v-btn icon color="dark" v-if="task.done">
-                        <v-icon>mdi-check</v-icon>
-                    </v-btn>
-                        <v-btn icon color="dark" v-if="task.done">
+                    <v-icon color="dark" v-if="task.done">mdi-check</v-icon>
+                    <v-btn icon color="dark" v-if="task.done" @click="undoTask(task.id)">
                         <v-icon>mdi-close-circle-outline</v-icon>
                     </v-btn>
-                        <v-btn icon color="dark" v-if="!task.done">
+                    <v-btn icon color="dark" v-if="!task.done" @click="finish(task.id)">
                         <v-icon>mdi-checkbox-marked-circle-outline</v-icon>
                     </v-btn>
-                        <v-btn icon color="dark">
-                        <v-icon>mdi-trash-can-outline</v-icon>
-                    </v-btn>
+                    <deleteTask @deleteTask="deleteTask" :taskId="task.id" :taskTitle="task.title" />
                 </v-row>
             </v-list-item>
         </v-card-actions>
