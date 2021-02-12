@@ -2918,11 +2918,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      tasks: []
+      tasks: [],
+      items: [],
+      priority: ''
     };
+  },
+  watch: {
+    priority: function priority(val) {
+      switch (val) {
+        case "1":
+          this.filtertask(val);
+          break;
+
+        case "2":
+          this.filtertask(val);
+          break;
+
+        case "3":
+          this.filtertask(val);
+          break;
+
+        default:
+          this.getTask();
+          break;
+      }
+    }
   },
   created: function created() {
     this.getTask();
+    this.setSelectPriority();
   },
   methods: {
     getTask: function getTask() {
@@ -2965,20 +2989,124 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee, null, [[0, 9]]);
       }))();
     },
+    setSelectPriority: function setSelectPriority() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var graphqlQuery, selectRequest, selectData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                graphqlQuery = {
+                  query: "{priorities{id label}} "
+                };
+                _context2.next = 4;
+                return _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__.apiService.post("".concat(location.origin, "/graphql"), graphqlQuery);
+
+              case 4:
+                selectRequest = _context2.sent;
+                selectData = selectRequest.data.data.priorities;
+                console.log(selectData);
+                selectData.unshift({
+                  id: "",
+                  label: "Tous"
+                });
+                _this2.items = selectData;
+                _context2.next = 14;
+                break;
+
+              case 11:
+                _context2.prev = 11;
+                _context2.t0 = _context2["catch"](0);
+
+                _this2.flashMessage.error({
+                  title: "Ressource indisponible",
+                  time: 8000
+                });
+
+              case 14:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[0, 11]]);
+      }))();
+    },
     addtask: function addtask(val) {
-      this.getTask();
+      this.refreshFront();
     },
     updateTask: function updateTask(val) {
-      this.getTask();
+      this.refreshFront();
     },
     undoTask: function undoTask(val) {
-      this.getTask();
+      this.refreshFront();
     },
     finishTask: function finishTask(val) {
-      this.getTask();
+      this.refreshFront();
     },
     deleteTask: function deleteTask(val) {
-      this.getTask();
+      this.refreshFront();
+    },
+    filtertask: function filtertask(priorityId) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var graphqlQuery, filterRequest, filterData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                graphqlQuery = {
+                  query: "\n                    {\n                        tasks(where: { column: PRIORITY_ID, operator: EQ, value: ".concat(priorityId, " }) {\n                            id title description done deadline priority{id label} user{id pseudo}\n                        }\n                    }")
+                };
+                _context3.next = 4;
+                return _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__.apiService.post("".concat(location.origin, "/graphql"), graphqlQuery);
+
+              case 4:
+                filterRequest = _context3.sent;
+                filterData = filterRequest.data.data.tasks;
+                _this3.tasks = filterData;
+                _context3.next = 12;
+                break;
+
+              case 9:
+                _context3.prev = 9;
+                _context3.t0 = _context3["catch"](0);
+
+                _this3.flashMessage.error({
+                  title: "Ressource indisponible",
+                  time: 8000
+                });
+
+              case 12:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, null, [[0, 9]]);
+      }))();
+    },
+    refreshFront: function refreshFront() {
+      switch (this.priority) {
+        case "1":
+          this.filtertask(this.priority);
+          break;
+
+        case "2":
+          this.filtertask(this.priority);
+          break;
+
+        case "3":
+          this.filtertask(this.priority);
+          break;
+
+        default:
+          this.getTask();
+          break;
+      }
     }
   }
 });
@@ -23529,9 +23657,48 @@ var render = function() {
     "v-container",
     [
       _c(
-        "div",
+        "v-row",
         { staticClass: "d-flex justify-center" },
-        [_c("addTask", { on: { addtask: _vm.addtask } })],
+        [
+          _c(
+            "v-col",
+            {
+              staticClass: "d-flex justify-center",
+              attrs: { md: "4", sm: "4", cols: "12" }
+            },
+            [_c("addTask", { on: { addtask: _vm.addtask } })],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            {
+              staticClass: "d-flex justify-center",
+              attrs: { md: "4", sm: "4", cols: "12" }
+            },
+            [
+              _c("v-select", {
+                staticClass: "mt-lg-6 mt-sm-6",
+                attrs: {
+                  dense: "",
+                  outlined: "",
+                  items: _vm.items,
+                  label: "Sélectionner une priorité à filtrer",
+                  "item-text": "label",
+                  "item-value": "id"
+                },
+                model: {
+                  value: _vm.priority,
+                  callback: function($$v) {
+                    _vm.priority = $$v
+                  },
+                  expression: "priority"
+                }
+              })
+            ],
+            1
+          )
+        ],
         1
       ),
       _vm._v(" "),

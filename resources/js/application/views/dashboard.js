@@ -10,12 +10,34 @@ export default {
 
     data() {
         return {
-            tasks: []
+            tasks: [],
+            items: [],
+            priority: '',
+        }
+    },
+
+    watch: {
+        priority(val) {
+            switch (val) {
+                case "1":
+                    this.filtertask(val)
+                    break;
+                case "2":
+                    this.filtertask(val)
+                    break;
+                case "3":
+                    this.filtertask(val)
+                    break;
+                default:
+                    this.getTask()
+                    break;
+            }
         }
     },
 
     created() {
         this.getTask();
+        this.setSelectPriority();
     },
 
     methods: {
@@ -51,20 +73,73 @@ export default {
                 })
             }
         },
+        async setSelectPriority() {
+            try {
+                const graphqlQuery = {
+                    query: `{priorities{id label}} `
+                };
+                const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
+                const selectData = selectRequest.data.data.priorities;
+                console.log(selectData)
+                selectData.unshift({id: "", label: "Tous"})
+                this.items = selectData;
+            } catch (error) {
+                this.flashMessage.error({
+                    title: "Ressource indisponible",
+                    time: 8000,
+                })
+            }
+        },
         addtask(val){
-            this.getTask();
+            this.refreshFront();
         },
         updateTask(val){
-            this.getTask();
+            this.refreshFront();
         },
         undoTask(val){
-            this.getTask();
+            this.refreshFront();
         },
         finishTask(val){
-            this.getTask();
+            this.refreshFront();
         },
         deleteTask(val) {
-            this.getTask();
+            this.refreshFront();
+        },
+        async filtertask(priorityId){
+            try {
+                const graphqlQuery = {
+                    query: `
+                    {
+                        tasks(where: { column: PRIORITY_ID, operator: EQ, value: ${priorityId} }) {
+                            id title description done deadline priority{id label} user{id pseudo}
+                        }
+                    }`
+                };
+                const filterRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
+                const filterData = filterRequest.data.data.tasks;
+                this.tasks = filterData;
+            } catch (error) {
+                this.flashMessage.error({
+                    title: "Ressource indisponible",
+                    time: 8000,
+                })
+            }
+        },
+        refreshFront() {
+            switch (this.priority) {
+                case "1":
+                    this.filtertask(this.priority)
+                    break;
+                case "2":
+                    this.filtertask(this.priority)
+                    break;
+                case "3":
+                    this.filtertask(this.priority)
+                    break;
+                default:
+                    this.getTask()
+                    break;
+            }
         }
     }
 }
