@@ -70,7 +70,7 @@ class AuthMutator
         $datenowFormat = $datenow->format('d-m-Y');
         Mail::to($userExist->email)->send(new NotificationChangePassword($userExist->pseudo, $datenowFormat, $ip));
 
-        return "Mise à jour effectuée";
+        return null;
     }
 
 

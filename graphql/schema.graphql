@@ -91,7 +91,7 @@ type Mutation {
                 message: "Mot de passe : 6 caractères minimum"
             }
         ])
-    ): String! @guard @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@updatePassword")
+    ): String @guard @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@updatePassword")
     login(email: String!, password: String! ): String @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@login")
     logout: Boolean @guard @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@logout")
     sendForgottenMail(email: String): String! @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@sendForgottenMail")

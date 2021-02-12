@@ -7,9 +7,21 @@
           <v-toolbar-title class='font-weight-bold'>ZotTodoRe</v-toolbar-title>
           <v-spacer></v-spacer>
           <div v-if="connected">
-             <v-btn icon color="white">
-              <v-icon>mdi-account-cog</v-icon>
-            </v-btn>
+            <v-menu offset-y>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon color="white" v-bind="attrs" v-on="on">
+                  <v-icon>mdi-account-cog</v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item>
+                  <v-list-item-title>
+                    <changePassword />
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+           
             <v-btn icon color="white" @click="deconnexion">
               <v-icon>mdi-export</v-icon>
             </v-btn>

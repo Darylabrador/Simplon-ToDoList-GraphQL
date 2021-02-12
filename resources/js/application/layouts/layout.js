@@ -1,6 +1,10 @@
 import { apiService } from '../_services/apiService.js';
+import ChangePassword from '../components/modals/ChangePassword.vue';
 
 export default {
+    components: {
+        ChangePassword
+    },
     data() {
         return {
             connected: localStorage.getItem('zotToken') != null ? true : false,

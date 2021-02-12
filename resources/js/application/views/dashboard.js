@@ -80,7 +80,6 @@ export default {
                 };
                 const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const selectData = selectRequest.data.data.priorities;
-                console.log(selectData)
                 selectData.unshift({id: "", label: "Tous"})
                 this.items = selectData;
             } catch (error) {

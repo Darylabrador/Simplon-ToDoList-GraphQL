@@ -2083,6 +2083,153 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/components/modals/changePassword.js?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/components/modals/changePassword.js?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../_services/apiService.js */ "./resources/js/application/_services/apiService.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      isValid: false,
+      dialog: false,
+      oldPassword: '',
+      newPassword: '',
+      newPasswordConfirm: '',
+      oldPasswordRules: [function (v) {
+        return !!v || 'Ancien mot de passe requis';
+      }, function (v) {
+        return v.length > 5 || '6 caractères minimuns';
+      }],
+      newPasswordRules: [function (v) {
+        return !!v || 'Nouveau mot de passe requis';
+      }, function (v) {
+        return v.length > 5 || '6 caractères minimuns';
+      }],
+      newPasswordConfirmRules: [function (v) {
+        return !!v || 'Confirmation mot de passe requis';
+      }, function (v) {
+        return v.length > 5 || '6 caractères minimuns';
+      }]
+    };
+  },
+  watch: {
+    oldPassword: function oldPassword(val) {
+      if (val != '') {
+        this.isValidFields(val, this.newPassword, this.newPasswordConfirm);
+      } else {
+        this.isValid = false;
+      }
+    },
+    newPassword: function newPassword(val) {
+      if (val != '') {
+        this.isValidFields(this.oldPassword, val, this.newPasswordConfirm);
+      } else {
+        this.isValid = false;
+      }
+    },
+    newPasswordConfirm: function newPasswordConfirm(val) {
+      if (val != '') {
+        this.isValidFields(this.oldPassword, this.newPassword, val);
+      } else {
+        this.isValid = false;
+      }
+    }
+  },
+  methods: {
+    changePassword: function changePassword() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var graphqlQuery, updatePwdRequest, updatePwdData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+
+                if (!_this.isValid) {
+                  _context.next = 8;
+                  break;
+                }
+
+                graphqlQuery = {
+                  query: "\n                        mutation{\n                            updatePassword(\n                                oldPassword: \"".concat(_this.oldPassword, "\" \n                                password: \"").concat(_this.newPassword, "\" \n                                passwordConfirm: \"").concat(_this.newPasswordConfirm, "\" \n                            )\n                        }")
+                };
+                _context.next = 5;
+                return _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__.apiService.post("".concat(location.origin, "/graphql"), graphqlQuery);
+
+              case 5:
+                updatePwdRequest = _context.sent;
+                updatePwdData = updatePwdRequest.data.data.updatePassword;
+
+                if (updatePwdData != null) {
+                  _this.flashMessage.error({
+                    title: updatePwdData,
+                    time: 8000
+                  });
+                } else {
+                  _this.oldPassword = '';
+                  _this.newPassword = '';
+                  _this.newPasswordConfirm = '';
+                  _this.isValid = false;
+                  _this.dialog = false;
+
+                  _this.flashMessage.success({
+                    title: "Mise à jour effectuée",
+                    time: 8000
+                  });
+                }
+
+              case 8:
+                _context.next = 13;
+                break;
+
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](0);
+
+                _this.flashMessage.error({
+                  title: "Ressource indisponible",
+                  time: 8000
+                });
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 10]]);
+      }))();
+    },
+    isValidFields: function isValidFields(oldPassword, newPassword, newPasswordConfirm) {
+      if (oldPassword.length > 5 && newPassword.length > 5 && newPasswordConfirm.length > 5) {
+        this.isValid = true;
+      } else {
+        this.isValid = false;
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/components/modals/deleteTask.js?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/components/modals/deleteTask.js?vue&type=script&lang=js& ***!
@@ -2712,6 +2859,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _services_apiService_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_services/apiService.js */ "./resources/js/application/_services/apiService.js");
+/* harmony import */ var _components_modals_ChangePassword_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/modals/ChangePassword.vue */ "./resources/js/application/components/modals/ChangePassword.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2719,7 +2867,11 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    ChangePassword: _components_modals_ChangePassword_vue__WEBPACK_IMPORTED_MODULE_2__.default
+  },
   data: function data() {
     return {
       connected: localStorage.getItem('zotToken') != null ? true : false,
@@ -3008,17 +3160,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 4:
                 selectRequest = _context2.sent;
                 selectData = selectRequest.data.data.priorities;
-                console.log(selectData);
                 selectData.unshift({
                   id: "",
                   label: "Tous"
                 });
                 _this2.items = selectData;
-                _context2.next = 14;
+                _context2.next = 13;
                 break;
 
-              case 11:
-                _context2.prev = 11;
+              case 10:
+                _context2.prev = 10;
                 _context2.t0 = _context2["catch"](0);
 
                 _this2.flashMessage.error({
@@ -3026,12 +3177,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   time: 8000
                 });
 
-              case 14:
+              case 13:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 11]]);
+        }, _callee2, null, [[0, 10]]);
       }))();
     },
     addtask: function addtask(val) {
@@ -21760,6 +21911,45 @@ component.options.__file = "resources/js/application/components/modals/AddTask.v
 
 /***/ }),
 
+/***/ "./resources/js/application/components/modals/ChangePassword.vue":
+/*!***********************************************************************!*\
+  !*** ./resources/js/application/components/modals/ChangePassword.vue ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ChangePassword_vue_vue_type_template_id_44dfc978___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChangePassword.vue?vue&type=template&id=44dfc978& */ "./resources/js/application/components/modals/ChangePassword.vue?vue&type=template&id=44dfc978&");
+/* harmony import */ var _changePassword_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./changePassword.js?vue&type=script&lang=js& */ "./resources/js/application/components/modals/changePassword.js?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _changePassword_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _ChangePassword_vue_vue_type_template_id_44dfc978___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ChangePassword_vue_vue_type_template_id_44dfc978___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/application/components/modals/ChangePassword.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/application/components/modals/DeleteTask.vue":
 /*!*******************************************************************!*\
   !*** ./resources/js/application/components/modals/DeleteTask.vue ***!
@@ -22010,6 +22200,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/application/components/modals/changePassword.js?vue&type=script&lang=js&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/application/components/modals/changePassword.js?vue&type=script&lang=js& ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_changePassword_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./changePassword.js?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/components/modals/changePassword.js?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_changePassword_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/application/components/modals/deleteTask.js?vue&type=script&lang=js&":
 /*!*******************************************************************************************!*\
   !*** ./resources/js/application/components/modals/deleteTask.js?vue&type=script&lang=js& ***!
@@ -22152,6 +22358,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddTask_vue_vue_type_template_id_d47cbdee___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddTask_vue_vue_type_template_id_d47cbdee___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AddTask.vue?vue&type=template&id=d47cbdee& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/components/modals/AddTask.vue?vue&type=template&id=d47cbdee&");
+
+
+/***/ }),
+
+/***/ "./resources/js/application/components/modals/ChangePassword.vue?vue&type=template&id=44dfc978&":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/application/components/modals/ChangePassword.vue?vue&type=template&id=44dfc978& ***!
+  \******************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChangePassword_vue_vue_type_template_id_44dfc978___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChangePassword_vue_vue_type_template_id_44dfc978___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChangePassword_vue_vue_type_template_id_44dfc978___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ChangePassword.vue?vue&type=template&id=44dfc978& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/components/modals/ChangePassword.vue?vue&type=template&id=44dfc978&");
 
 
 /***/ }),
@@ -22672,6 +22895,209 @@ var render = function() {
                           on: { click: _vm.addTask }
                         },
                         [_vm._v(" Ajouter ")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/components/modals/ChangePassword.vue?vue&type=template&id=44dfc978&":
+/*!*********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/components/modals/ChangePassword.vue?vue&type=template&id=44dfc978& ***!
+  \*********************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-dialog",
+    {
+      attrs: { persistent: "", "max-width": "450" },
+      scopedSlots: _vm._u([
+        {
+          key: "activator",
+          fn: function(ref) {
+            var on = ref.on
+            var attrs = ref.attrs
+            return [
+              _c(
+                "v-btn",
+                _vm._g(
+                  _vm._b({ attrs: { text: "" } }, "v-btn", attrs, false),
+                  on
+                ),
+                [_vm._v("\n        Modification mot de passe\n    ")]
+              )
+            ]
+          }
+        }
+      ]),
+      model: {
+        value: _vm.dialog,
+        callback: function($$v) {
+          _vm.dialog = $$v
+        },
+        expression: "dialog"
+      }
+    },
+    [
+      _vm._v(" "),
+      _c(
+        "v-card",
+        [
+          _c(
+            "v-card-title",
+            { staticClass: "title" },
+            [
+              _c(
+                "v-row",
+                [
+                  _c("v-col", { attrs: { cols: "10" } }, [
+                    _c("h5", [_vm._v(" Changement du mot de passe ")])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "text-right" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { icon: "", color: "dark", text: "" },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                            }
+                          }
+                        },
+                        [_vm._v(" X ")]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("hr", { staticClass: "grey lighten-2" }),
+          _vm._v(" "),
+          _c(
+            "v-card-actions",
+            [
+              _c(
+                "v-form",
+                {
+                  ref: "form",
+                  staticClass: "formWidth",
+                  attrs: { "lazy-validation": "" }
+                },
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      type: "password",
+                      label: "Ancien mot de passe",
+                      required: "",
+                      rules: _vm.oldPasswordRules
+                    },
+                    model: {
+                      value: _vm.oldPassword,
+                      callback: function($$v) {
+                        _vm.oldPassword = $$v
+                      },
+                      expression: "oldPassword"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    attrs: {
+                      type: "password",
+                      label: "Nouveau mot de passe",
+                      required: "",
+                      rules: _vm.newPasswordRules
+                    },
+                    model: {
+                      value: _vm.newPassword,
+                      callback: function($$v) {
+                        _vm.newPassword = $$v
+                      },
+                      expression: "newPassword"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    attrs: {
+                      type: "password",
+                      label: "Confirmation mot de passe",
+                      required: "",
+                      rules: _vm.newPasswordConfirmRules
+                    },
+                    model: {
+                      value: _vm.newPasswordConfirm,
+                      callback: function($$v) {
+                        _vm.newPasswordConfirm = $$v
+                      },
+                      expression: "newPasswordConfirm"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "d-flex justify-end my-2 w-100" },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mr-2",
+                          attrs: { small: "", color: "blue-grey" },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                            }
+                          }
+                        },
+                        [_vm._v(" Annuler ")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            small: "",
+                            color: "primary",
+                            disabled: !_vm.isValid
+                          },
+                          on: { click: _vm.changePassword }
+                        },
+                        [_vm._v(" Modifier ")]
                       )
                     ],
                     1
@@ -23537,9 +23963,66 @@ var render = function() {
                     "div",
                     [
                       _c(
-                        "v-btn",
-                        { attrs: { icon: "", color: "white" } },
-                        [_c("v-icon", [_vm._v("mdi-account-cog")])],
+                        "v-menu",
+                        {
+                          attrs: { "offset-y": "" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "activator",
+                                fn: function(ref) {
+                                  var on = ref.on
+                                  var attrs = ref.attrs
+                                  return [
+                                    _c(
+                                      "v-btn",
+                                      _vm._g(
+                                        _vm._b(
+                                          {
+                                            attrs: { icon: "", color: "white" }
+                                          },
+                                          "v-btn",
+                                          attrs,
+                                          false
+                                        ),
+                                        on
+                                      ),
+                                      [
+                                        _c("v-icon", [
+                                          _vm._v("mdi-account-cog")
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            false,
+                            1755083662
+                          )
+                        },
+                        [
+                          _vm._v(" "),
+                          _c(
+                            "v-list",
+                            [
+                              _c(
+                                "v-list-item",
+                                [
+                                  _c(
+                                    "v-list-item-title",
+                                    [_c("changePassword")],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
                         1
                       ),
                       _vm._v(" "),
