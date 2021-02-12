@@ -26,7 +26,7 @@
               <v-icon>mdi-export</v-icon>
             </v-btn>
           </div>
-          <div v-else>
+          <div v-else class="d-flex">
             <v-btn text color="white" :to="registerPath"> Inscription </v-btn>
             <v-btn text color="white" :to="loginPath"> Connexion </v-btn>
           </div>

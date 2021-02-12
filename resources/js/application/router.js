@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Login from './connexion/Login.vue';
 import Register from './connexion/Register.vue';
 import Dashboard from './views/Dashboard.vue';
+import ResetPassword from './connexion/ResetPassword.vue';
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,16 @@ const router = new VueRouter({
             path: '/connexion',
             name: 'login',
             component: Login
+        },
+        {
+            path: '/reset',
+            name: 'reset',
+            component: ResetPassword
+        },
+        {
+            path: '/reset/:token',
+            name: 'resettoken',
+            component: ResetPassword
         },
     ]
 });

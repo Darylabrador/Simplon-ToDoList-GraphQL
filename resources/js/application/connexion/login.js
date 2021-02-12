@@ -12,7 +12,8 @@ export default {
             v => !!v || 'Adresse e-mail requise',
             v => /.+@.+\..+/.test(v) || 'Adresse e-mail est invalide',
         ],
-        registerPath: "/inscription"
+        registerPath: "/inscription",
+        forgottenPath: "/reset"
     }),
 
 

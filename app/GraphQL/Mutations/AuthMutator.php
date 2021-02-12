@@ -90,7 +90,7 @@ class AuthMutator
             Mail::to($userExist->email)->send(new resetForgottenPassword($userExist->pseudo, $url));
             return  "L'e-mail de réinitialisation a été envoyé";
         }
-        return "Vous ne pouvez pas effectuer cette action";
+        return null;
     }
 
 
@@ -122,7 +122,7 @@ class AuthMutator
         $datenowFormat = $datenow->format('d-m-Y');
         Mail::to($userExist->email)->send(new NotificationChangePassword($userExist->pseudo, $datenowFormat, $ip));
         
-        return "Mise à jour effectuée";
+        return null;
     }
 
 
