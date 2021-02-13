@@ -6,6 +6,10 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Illuminate\Support\Str;
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegisterNotification;
 
 class CreateUserMutator
 {
@@ -32,11 +36,16 @@ class CreateUserMutator
             return null;
         }
 
-        User::create([
+        $confirmToken = Str::random(25);
+        $user = User::create([
             "pseudo" => $pseudo,
             "email"    => $email,
-            "password" => Hash::make($password)
+            "password" => Hash::make($password),
+            "confirmToken" => $confirmToken
         ]);
+
+        $url = request()->getSchemeAndHttpHost() . "/email/verification/" . $user->confirmToken;
+        Mail::to($user->email)->send(new RegisterNotification($user->name, $url));
 
         return "Vous pouvez à présent vous connecter";
     }

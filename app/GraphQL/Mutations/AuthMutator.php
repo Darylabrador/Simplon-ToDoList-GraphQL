@@ -13,6 +13,11 @@ use App\Mail\resetForgottenPassword;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
+use Carbon\Carbon;
+use App\Jobs\ResetTentatives;
+use App\Mail\NotificationUnlockedAccount;
+use App\Mail\NotificationLockedAccount;
+
 class AuthMutator
 {
     /**
@@ -32,11 +37,65 @@ class AuthMutator
         $email    = $args['email'];
         $password = $args['password'];
         $userExist  = User::where(["email" => $email])->first();
-        if (!$userExist || !Hash::check($password, $userExist->password)) {
-            return null;
+
+        if (!$userExist) {
+            return 'Adresse email ou identifiant incorrecte';
         }
-        $token = $userExist->createToken('AuthToken')->accessToken;
-        return $token;
+
+        if ($userExist->verified_at == null) {
+            return 'Vous devez confirmer votre adresse email';
+        }
+
+        $oldTentative = $userExist->tentatives;
+
+        switch ($oldTentative) {
+            case 3:
+                $userExist->tentatives = 4;
+                $userExist->save();
+
+                Mail::to($userExist->email)->later(now()->addMinutes(1), new NotificationUnlockedAccount());
+                $resetJob = (new ResetTentatives($userExist->id, $userExist->email))->delay(Carbon::now()->addMinutes(1));
+                dispatch($resetJob);
+
+                $ip  = $_SERVER['REMOTE_ADDR'];
+                openlog('ZOTTODORE_AUTH', LOG_NDELAY, LOG_USER);
+                syslog(LOG_INFO, "L'utilisateur {$userExist->email} à atteint son nombre maximal de tentative de connexion depuis l'adresse IP {$ip} ! ");
+                Mail::to($userExist->email)->send(new NotificationLockedAccount());
+                $retour = [
+                    'success' => 0,
+                    'message' => 'Veuillez reessayer dans 30 minutes'
+                ];
+                return $retour;
+                break;
+            case 4:
+                $retour = [
+                    'success' => 0,
+                    'message' => 'Veuillez reessayer dans quelques minutes'
+                ];
+                return $retour;
+                break;
+            default:
+                if (Hash::check($password, $userExist->password)) {
+                    $userExist->tentatives = 0;
+                    $userExist->save();
+                    $token = $userExist->createToken('AuthToken')->accessToken;
+                    $retour = [
+                        'success' => 1,
+                        'token' => $token
+                    ];
+                    return $retour;
+                } else {
+                    $tentative    = $userExist->tentatives + 1;
+                    $userExist->tentatives = $tentative;
+                    $userExist->save();
+                    $retour = [
+                        'success' => 0,
+                        'message' => 'Adresse email ou identifiant incorrecte'
+                    ];
+                    return $retour;
+                }
+                break;
+        }
     }
 
 
@@ -124,6 +183,30 @@ class AuthMutator
         
         return null;
     }
+
+
+
+    /**
+     * Verify mail resolver
+     */
+    public function verifymail($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        $confirmToken = $args['confirmToken'];
+        $userExist = User::where(['confirmToken' => $confirmToken])->first();
+
+        if (!$userExist) {
+            return  "Jeton de vérification invalide";
+        }
+
+        if ($userExist->verified_at != null) {
+            return "Adresse e-mail déjà vérifier";
+        }
+
+        $userExist->verified_at =  now();
+        $userExist->save();
+        return null;
+    }
+
 
 
     /**

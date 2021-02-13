@@ -21,8 +21,8 @@
                 <v-form ref="form" v-model="valid" lazy-validation class="formWidth">
                     <v-text-field v-model="email" :rules="emailRules"  label="Saisir votre adresse e-mail" required v-if="!isTokenExist"></v-text-field>
                     <div v-else>
-                        <v-text-field type="password" v-model="password" :rules="passwordRules"  label="Mot de passe" required></v-text-field>
-                        <v-text-field type="password" v-model="passwordConfirm" :rules="passwordConfirmRules"  label="Confirmer votre mot de passe" required></v-text-field>
+                        <v-text-field type="password" v-model="password" :rules="passwordRules"  label="Nouveau mot de passe" required></v-text-field>
+                        <v-text-field type="password" v-model="passwordConfirm" :rules="passwordConfirmRules"  label="Confirmation du nouveau mot de passe" required></v-text-field>
                     </div>
                     <div class="d-flex justify-end my-2 w-100">
                         <v-btn small color="blue-grey" class="mr-2" :to="loginPath"> Retour </v-btn>

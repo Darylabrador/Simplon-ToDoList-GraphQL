@@ -40,17 +40,20 @@ export default {
                     };
                     const loginRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
                     const loginData = loginRequest.data.data.login;
-                    if(loginData == null){
+
+                    if (loginData[0] == "0"){
                         this.flashMessage.error({
-                            title: "Adresse email ou mot de passe incorrecte",
+                            title: loginData[1],
                             time: 8000,
                         })
-                    } else {
-                        localStorage.setItem('zotToken', loginData)
+                    }
+
+                    if (loginData[0] == "1") {
+                        localStorage.setItem('zotToken', loginData[1]);
                         this.email    = "";
                         this.password = "";
                         this.$emit('updateNavbar', true);
-                        this.$router.push('/dashboard')
+                        this.$router.push('/dashboard');
                     }
                 }
             } catch (error) {

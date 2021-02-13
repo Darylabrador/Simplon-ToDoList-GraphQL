@@ -2665,7 +2665,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.$refs.form.validate();
 
                 if (!_this.valid) {
-                  _context.next = 9;
+                  _context.next = 10;
                   break;
                 }
 
@@ -2679,13 +2679,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 loginRequest = _context.sent;
                 loginData = loginRequest.data.data.login;
 
-                if (loginData == null) {
+                if (loginData[0] == "0") {
                   _this.flashMessage.error({
-                    title: "Adresse email ou mot de passe incorrecte",
+                    title: loginData[1],
                     time: 8000
                   });
-                } else {
-                  localStorage.setItem('zotToken', loginData);
+                }
+
+                if (loginData[0] == "1") {
+                  localStorage.setItem('zotToken', loginData[1]);
                   _this.email = "";
                   _this.password = "";
 
@@ -2694,12 +2696,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.$router.push('/dashboard');
                 }
 
-              case 9:
-                _context.next = 14;
+              case 10:
+                _context.next = 15;
                 break;
 
-              case 11:
-                _context.prev = 11;
+              case 12:
+                _context.prev = 12;
                 _context.t0 = _context["catch"](0);
 
                 _this.flashMessage.error({
@@ -2707,12 +2709,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   time: 8000
                 });
 
-              case 14:
+              case 15:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 11]]);
+        }, _callee, null, [[0, 12]]);
       }))();
     }
   }
@@ -24321,7 +24323,7 @@ var render = function() {
                             attrs: {
                               type: "password",
                               rules: _vm.passwordRules,
-                              label: "Mot de passe",
+                              label: "Nouveau mot de passe",
                               required: ""
                             },
                             model: {
@@ -24337,7 +24339,7 @@ var render = function() {
                             attrs: {
                               type: "password",
                               rules: _vm.passwordConfirmRules,
-                              label: "Confirmer votre mot de passe",
+                              label: "Confirmation du nouveau mot de passe",
                               required: ""
                             },
                             model: {
