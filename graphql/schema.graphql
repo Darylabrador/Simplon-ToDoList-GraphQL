@@ -71,7 +71,7 @@ type Mutation {
                 message: "Mot de passe : 6 caractères minimum"
             }
         ])
-    ): String @field(resolver: "App\\GraphQL\\Mutations\\CreateUserMutator@create")
+    ): [String!] @field(resolver: "App\\GraphQL\\Mutations\\CreateUserMutator@create")
     updatePassword(
         oldPassword: String! @rules(apply: ["min:6"], messages: [
             { 
@@ -96,7 +96,7 @@ type Mutation {
     logout: Boolean @guard @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@logout")
     sendForgottenMail(email: String): String @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@sendForgottenMail")
     resetForgotten(newPassword: String!, newPasswordConfirm: String!, resetToken: String!): String @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@resetForgotten")
-    verifyMail(confirmToken: String! ): String @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@verifymail")
+    verifyMail(confirmToken: String! ): [String!] @field(resolver: "App\\GraphQL\\Mutations\\AuthMutator@verifymail")
     createTask( title: String!, description: String!, deadline: Date!, priority_id: Int! ): Task @guard @field(resolver: "App\\GraphQL\\Mutations\\TaskMutator@create")
     updateTask(id: Int!, title: String!, description: String!, deadline: Date!, priority_id: Int ): Task @guard @update @guard @can(ability: "update",  model: "App\\Models\\Task", find: "id")
     setTaskStatus(id: Int!, done: Boolean!): Task @update @guard @can(ability: "setStatus",  model: "App\\Models\\Task", find: "id")

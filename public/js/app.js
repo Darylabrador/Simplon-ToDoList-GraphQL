@@ -2789,7 +2789,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.$refs.form.validate();
 
                 if (!_this.valid) {
-                  _context.next = 9;
+                  _context.next = 10;
                   break;
                 }
 
@@ -2803,12 +2803,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 registerRequest = _context.sent;
                 registerData = registerRequest.data.data.createUser;
 
-                if (registerData == null) {
+                if (registerData[0] == "0") {
                   _this.flashMessage.error({
-                    title: "Les mots de passe ne sont pas identique",
+                    title: registerData[1],
                     time: 8000
                   });
-                } else {
+                }
+
+                if (registerData[0] == "1") {
                   _this.pseudo = "";
                   _this.email = "";
                   _this.password = "";
@@ -2817,17 +2819,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.$router.push(_this.loginPath);
 
                   _this.flashMessage.success({
-                    title: "Vous pouvez vous connecter",
+                    title: registerData[1],
                     time: 8000
                   });
                 }
 
-              case 9:
-                _context.next = 14;
+              case 10:
+                _context.next = 15;
                 break;
 
-              case 11:
-                _context.prev = 11;
+              case 12:
+                _context.prev = 12;
                 _context.t0 = _context["catch"](0);
 
                 _this.flashMessage.error({
@@ -2835,12 +2837,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   time: 8000
                 });
 
-              case 14:
+              case 15:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 11]]);
+        }, _callee, null, [[0, 12]]);
       }))();
     }
   }
@@ -3072,6 +3074,100 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/connexion/verifyEmail.js?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/connexion/verifyEmail.js?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      loginPath: "/connexion",
+      message: ''
+    };
+  },
+  created: function created() {
+    if (localStorage.getItem('zotToken')) {
+      return this.$router.push('/dashboard');
+    }
+
+    if (!this.$route.params.token) {
+      this.$router.push('/connexion');
+    } else {
+      this.verify(this.$route.params.token);
+    }
+  },
+  methods: {
+    verify: function verify(verifyToken) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var graphqlQuery, verifyRequest, verifyData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                graphqlQuery = {
+                  query: "\n                    mutation{\n                        verifyMail( confirmToken: \"".concat(verifyToken, "\" )\n                        }\n                    ")
+                };
+                _context.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().post("".concat(location.origin, "/graphql"), graphqlQuery);
+
+              case 4:
+                verifyRequest = _context.sent;
+                verifyData = verifyRequest.data.data.verifyMail;
+
+                if (verifyData[0] == "0") {
+                  _this.message = verifyData[1];
+                }
+
+                if (verifyData[0] == "1") {
+                  _this.message = verifyData[1];
+                }
+
+                _context.next = 13;
+                break;
+
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](0);
+
+                _this.flashMessage.error({
+                  title: "Impossible d'effectuer cette action",
+                  time: 8000
+                });
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 10]]);
+      }))();
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/layouts/layout.js?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/layouts/layout.js?vue&type=script&lang=js& ***!
@@ -3214,20 +3310,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _connexion_Login_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./connexion/Login.vue */ "./resources/js/application/connexion/Login.vue");
 /* harmony import */ var _connexion_Register_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./connexion/Register.vue */ "./resources/js/application/connexion/Register.vue");
 /* harmony import */ var _views_Dashboard_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/Dashboard.vue */ "./resources/js/application/views/Dashboard.vue");
 /* harmony import */ var _connexion_ResetPassword_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./connexion/ResetPassword.vue */ "./resources/js/application/connexion/ResetPassword.vue");
+/* harmony import */ var _connexion_VerifyEmail_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./connexion/VerifyEmail.vue */ "./resources/js/application/connexion/VerifyEmail.vue");
 
 
 
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_4__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_5__.default);
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_5__.default({
+
+vue__WEBPACK_IMPORTED_MODULE_5__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_6__.default);
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
   mode: 'history',
   routes: [{
     path: '/dashboard',
@@ -3252,6 +3350,10 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_5__.default({
     path: '/reset/:token',
     name: 'resettoken',
     component: _connexion_ResetPassword_vue__WEBPACK_IMPORTED_MODULE_3__.default
+  }, {
+    path: '/email/verification/:token',
+    name: 'verifymail',
+    component: _connexion_VerifyEmail_vue__WEBPACK_IMPORTED_MODULE_4__.default
   }]
 });
 router.beforeEach(function (to, from, next) {
@@ -22382,6 +22484,45 @@ component.options.__file = "resources/js/application/connexion/ResetPassword.vue
 
 /***/ }),
 
+/***/ "./resources/js/application/connexion/VerifyEmail.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/application/connexion/VerifyEmail.vue ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _VerifyEmail_vue_vue_type_template_id_7d9cc330___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./VerifyEmail.vue?vue&type=template&id=7d9cc330& */ "./resources/js/application/connexion/VerifyEmail.vue?vue&type=template&id=7d9cc330&");
+/* harmony import */ var _verifyEmail_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./verifyEmail.js?vue&type=script&lang=js& */ "./resources/js/application/connexion/verifyEmail.js?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _verifyEmail_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _VerifyEmail_vue_vue_type_template_id_7d9cc330___WEBPACK_IMPORTED_MODULE_0__.render,
+  _VerifyEmail_vue_vue_type_template_id_7d9cc330___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/application/connexion/VerifyEmail.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/application/layouts/Layout.vue":
 /*!*****************************************************!*\
   !*** ./resources/js/application/layouts/Layout.vue ***!
@@ -22588,6 +22729,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/application/connexion/verifyEmail.js?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/application/connexion/verifyEmail.js?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_verifyEmail_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./verifyEmail.js?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./resources/js/application/connexion/verifyEmail.js?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_verifyEmail_js_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/application/layouts/layout.js?vue&type=script&lang=js&":
 /*!*****************************************************************************!*\
   !*** ./resources/js/application/layouts/layout.js?vue&type=script&lang=js& ***!
@@ -22752,6 +22909,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ResetPassword_vue_vue_type_template_id_186774d7___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ResetPassword_vue_vue_type_template_id_186774d7___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ResetPassword.vue?vue&type=template&id=186774d7& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/connexion/ResetPassword.vue?vue&type=template&id=186774d7&");
+
+
+/***/ }),
+
+/***/ "./resources/js/application/connexion/VerifyEmail.vue?vue&type=template&id=7d9cc330&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/application/connexion/VerifyEmail.vue?vue&type=template&id=7d9cc330& ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VerifyEmail_vue_vue_type_template_id_7d9cc330___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VerifyEmail_vue_vue_type_template_id_7d9cc330___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_VerifyEmail_vue_vue_type_template_id_7d9cc330___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./VerifyEmail.vue?vue&type=template&id=7d9cc330& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/connexion/VerifyEmail.vue?vue&type=template&id=7d9cc330&");
 
 
 /***/ }),
@@ -24397,6 +24571,68 @@ var render = function() {
                   )
                 ],
                 1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/connexion/VerifyEmail.vue?vue&type=template&id=7d9cc330&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/application/connexion/VerifyEmail.vue?vue&type=template&id=7d9cc330& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-container",
+    {
+      staticClass: "d-flex justify-center align-center",
+      staticStyle: { height: "80vh", width: "100%" }
+    },
+    [
+      _c(
+        "v-card",
+        { staticClass: "mx-auto", attrs: { width: "450" } },
+        [
+          _c("v-card-text", [
+            _c("h3", { staticClass: "font-weight-black text-center" }, [
+              _vm._v(" " + _vm._s(_vm.message) + " ")
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-card-actions",
+            { staticClass: "d-flex justify-center" },
+            [
+              _c(
+                "v-btn",
+                {
+                  staticClass: "mr-2",
+                  attrs: { small: "", color: "blue-grey", to: _vm.loginPath }
+                },
+                [_vm._v(" Retour ")]
               )
             ],
             1

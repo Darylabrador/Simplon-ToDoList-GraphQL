@@ -4,6 +4,7 @@ import Login from './connexion/Login.vue';
 import Register from './connexion/Register.vue';
 import Dashboard from './views/Dashboard.vue';
 import ResetPassword from './connexion/ResetPassword.vue';
+import VerifyEmail from './connexion/VerifyEmail.vue';
 
 Vue.use(VueRouter);
 
@@ -35,6 +36,11 @@ const router = new VueRouter({
             path: '/reset/:token',
             name: 'resettoken',
             component: ResetPassword
+        },
+        {
+            path: '/email/verification/:token',
+            name: 'verifymail',
+            component: VerifyEmail
         },
     ]
 });

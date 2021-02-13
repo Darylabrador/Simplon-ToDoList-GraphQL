@@ -33,7 +33,11 @@ class CreateUserMutator
         $passwordConfirm = $args['passwordConfirm'];
 
         if ($password != $passwordConfirm) {
-            return null;
+            $retour = [
+                'success' => 0,
+                'message' => 'Les mots de passe ne sont pas identique'
+            ];
+            return $retour;
         }
 
         $confirmToken = Str::random(25);
@@ -47,6 +51,10 @@ class CreateUserMutator
         $url = request()->getSchemeAndHttpHost() . "/email/verification/" . $user->confirmToken;
         Mail::to($user->email)->send(new RegisterNotification($user->name, $url));
 
-        return "Vous pouvez à présent vous connecter";
+        $retour = [
+            'success' => 1,
+            'message' => 'Un email de vérification a été envoyer'
+        ];
+        return $retour;
     }
 }

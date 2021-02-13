@@ -39,11 +39,19 @@ class AuthMutator
         $userExist  = User::where(["email" => $email])->first();
 
         if (!$userExist) {
-            return 'Adresse email ou identifiant incorrecte';
+            $retour = [
+                'success' => 0,
+                'message' => 'Adresse email ou identifiant incorrecte'
+            ];
+            return $retour;
         }
 
         if ($userExist->verified_at == null) {
-            return 'Vous devez confirmer votre adresse email';
+            $retour = [
+                'success' => 0,
+                'message' => 'Vous devez confirmer votre adresse email'
+            ];
+            return $retour;
         }
 
         $oldTentative = $userExist->tentatives;
@@ -195,16 +203,28 @@ class AuthMutator
         $userExist = User::where(['confirmToken' => $confirmToken])->first();
 
         if (!$userExist) {
-            return  "Jeton de vérification invalide";
+            $retour = [
+                'success' => 0,
+                'message' => 'Jeton de vérification invalide'
+            ];
+            return $retour;
         }
 
         if ($userExist->verified_at != null) {
-            return "Adresse e-mail déjà vérifier";
+            $retour = [
+                'success' => 0,
+                'message' => 'Adresse e-mail déjà vérifier'
+            ];
+            return $retour;
         }
 
         $userExist->verified_at =  now();
         $userExist->save();
-        return null;
+        $retour = [
+            'success' => 1,
+            'message' => 'Adresse e-mail vérifier avec succès'
+        ];
+        return $retour;
     }
 
 

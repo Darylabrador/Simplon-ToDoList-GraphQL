@@ -49,19 +49,22 @@ export default {
                     };
                     const registerRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
                     const registerData = registerRequest.data.data.createUser;
-                    if (registerData == null) {
+
+                    if (registerData[0] == "0") {
                         this.flashMessage.error({
-                            title: "Les mots de passe ne sont pas identique",
+                            title: registerData[1],
                             time: 8000,
                         })
-                    } else {
-                        this.pseudo   = "";
-                        this.email    = "";
+                    }
+
+                    if (registerData[0] == "1") {
+                        this.pseudo = "";
+                        this.email = "";
                         this.password = "";
                         this.password = "";
                         this.$router.push(this.loginPath)
                         this.flashMessage.success({
-                            title: "Vous pouvez vous connecter",
+                            title: registerData[1],
                             time: 8000,
                         })
                     }
