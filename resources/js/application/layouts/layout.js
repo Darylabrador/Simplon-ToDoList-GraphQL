@@ -34,6 +34,9 @@ export default {
         },
         updateNavbar(isLogged){
             this.connected = isLogged;
+        },
+        unathorized(val){
+            this.connected = val;
         }
     }
 }

@@ -34,7 +34,7 @@
       </div>
 
     <v-main>
-      <router-view @updateNavbar="updateNavbar"></router-view>
+      <router-view @updateNavbar="updateNavbar" @unathorized="unathorized"></router-view>
     </v-main>
 
       <v-footer dark padless v-if="connected">

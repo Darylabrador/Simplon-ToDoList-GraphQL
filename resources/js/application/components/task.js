@@ -32,7 +32,15 @@ export default {
                 };
                 const undoRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const undoData = undoRequest.data.data.setTaskStatus;
-                this.$emit('undoTask', undoData);
+
+                if (undoRequest.data.errors) {
+                    this.flashMessage.error({
+                        title: undoRequest.data.errors[0].message,
+                        time: 8000,
+                    })
+                } else {
+                    this.$emit('undoTask', undoData);
+                }
             } catch (error) {
                 this.flashMessage.error({
                     title: "Ressource indisponible",
@@ -54,7 +62,15 @@ export default {
                 };
                 const finishRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const finishData = finishRequest.data.data.setTaskStatus;
-                this.$emit('finishTask', finishData);     
+
+                if (finishRequest.data.errors) {
+                    this.flashMessage.error({
+                        title: finishRequest.data.errors[0].message,
+                        time: 8000,
+                    })
+                } else {
+                    this.$emit('finishTask', finishData); 
+                }
             } catch (error) {
                 this.flashMessage.error({
                     title: "Ressource indisponible",

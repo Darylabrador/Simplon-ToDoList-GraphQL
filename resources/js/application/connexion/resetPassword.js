@@ -52,7 +52,6 @@ export default {
             this.resetToken =  this.$route.params.token;
             this.isTokenExist = false;
         }
-        console.log()
     },
 
     methods: {
@@ -69,16 +68,23 @@ export default {
                     };
                     const sendMailRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
                     const sendMailData = sendMailRequest.data.data.sendForgottenMail;
-                    if (sendMailData != null){
-                        this.flashMessage.success({
-                            title: sendMailData,
-                            time: 8000,
-                        });
-                    } else {
+                    if (sendMailRequest.data.errors) {
                         this.flashMessage.error({
-                            title: "Impossible d'effectuer cette action",
+                            title: sendMailRequest.data.errors[0].message,
                             time: 8000,
-                        });
+                        })
+                    } else {
+                        if (sendMailData != null) {
+                            this.flashMessage.success({
+                                title: sendMailData,
+                                time: 8000,
+                            });
+                        } else {
+                            this.flashMessage.error({
+                                title: "Impossible d'effectuer cette action",
+                                time: 8000,
+                            });
+                        }
                     }
                 }
             } catch (error) {
@@ -105,7 +111,7 @@ export default {
                     };
                     const resetRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
                     const resetData = resetRequest.data.data.resetForgotten;
-                    if (resetData != null){
+                    if (resetData != null) {
                         this.flashMessage.error({
                             title: resetData,
                             time: 8000,

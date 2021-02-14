@@ -29,9 +29,16 @@ export default{
                     }`
                 };
                 const deleteRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const deleteData = deleteRequest.data.data.setTaskStatus;
-                this.$emit('deleteTask', deleteData);
-                this.dialog = false;
+                if (deleteRequest.data.errors) {
+                    this.flashMessage.error({
+                        title: deleteRequest.data.errors[0].message,
+                        time: 8000,
+                    })
+                } else {
+                    const deleteData = deleteRequest.data.data.setTaskStatus;
+                    this.$emit('deleteTask', deleteData);
+                    this.dialog = false;
+                }
             } catch (error) {
                 this.flashMessage.error({
                     title: "Ressource indisponible",

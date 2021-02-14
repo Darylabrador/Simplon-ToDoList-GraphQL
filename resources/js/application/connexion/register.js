@@ -49,7 +49,7 @@ export default {
                     };
                     const registerRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
                     const registerData = registerRequest.data.data.createUser;
-
+            
                     if (registerData[0] == "0") {
                         this.flashMessage.error({
                             title: registerData[1],

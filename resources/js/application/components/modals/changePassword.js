@@ -60,22 +60,30 @@ export default{
                         }`
                     };
                     const updatePwdRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                    const updatePwdData = updatePwdRequest.data.data.updatePassword;
-                    if (updatePwdData != null) {
+                    
+                    if (updatePwdRequest.data.errors) {
                         this.flashMessage.error({
-                            title: updatePwdData,
+                            title: updatePwdRequest.data.errors[0].message,
                             time: 8000,
                         })
                     } else {
-                        this.oldPassword = '';
-                        this.newPassword = '';
-                        this.newPasswordConfirm = '';
-                        this.isValid = false;
-                        this.dialog = false;
-                        this.flashMessage.success({
-                            title: "Mise à jour effectuée",
-                            time: 8000,
-                        })
+                        const updatePwdData = updatePwdRequest.data.data.updatePassword;
+                        if (updatePwdData != null) {
+                            this.flashMessage.error({
+                                title: updatePwdData,
+                                time: 8000,
+                            })
+                        } else {
+                            this.oldPassword = '';
+                            this.newPassword = '';
+                            this.newPasswordConfirm = '';
+                            this.isValid = false;
+                            this.dialog = false;
+                            this.flashMessage.success({
+                                title: "Mise à jour effectuée",
+                                time: 8000,
+                            })
+                        }
                     }
                 }
             } catch (error) {

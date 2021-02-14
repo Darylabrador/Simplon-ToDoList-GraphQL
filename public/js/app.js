@@ -1993,26 +1993,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 selectRequest = _context.sent;
-                selectData = selectRequest.data.data.priorities;
-                _this.items = selectData;
-                _context.next = 12;
+
+                if (selectRequest.data.errors) {
+                  _this.flashMessage.error({
+                    title: selectRequest.data.errors[0].message,
+                    time: 8000
+                  });
+                } else {
+                  selectData = selectRequest.data.data.priorities;
+                  _this.items = selectData;
+                }
+
+                _context.next = 10;
                 break;
 
-              case 9:
-                _context.prev = 9;
+              case 8:
+                _context.prev = 8;
                 _context.t0 = _context["catch"](0);
 
-                _this.flashMessage.error({
-                  title: "Ressource indisponible",
-                  time: 8000
-                });
-
-              case 12:
+              case 10:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 9]]);
+        }, _callee, null, [[0, 8]]);
       }))();
     },
     addTask: function addTask() {
@@ -2027,7 +2031,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context2.prev = 0;
 
                 if (!_this2.isValid) {
-                  _context2.next = 11;
+                  _context2.next = 7;
                   break;
                 }
 
@@ -2039,36 +2043,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
                 addTaskRequest = _context2.sent;
-                addTaskData = addTaskRequest.data.data.createTask;
-                _this2.isValid = false;
-                _this2.dialog = false;
 
-                _this2.flashMessage.success({
-                  title: "Tâche ajouter avec succès",
-                  time: 8000
-                });
+                if (addTaskRequest.data.errors) {
+                  _this2.flashMessage.error({
+                    title: addTaskRequest.data.errors[0].message,
+                    time: 8000
+                  });
+                } else {
+                  addTaskData = addTaskRequest.data.data.createTask;
+                  _this2.isValid = false;
+                  _this2.dialog = false;
 
-                _this2.$emit('addtask', addTaskData);
+                  _this2.flashMessage.success({
+                    title: "Tâche ajouter avec succès",
+                    time: 8000
+                  });
 
-              case 11:
-                _context2.next = 16;
+                  _this2.$emit('addtask', addTaskData);
+                }
+
+              case 7:
+                _context2.next = 11;
                 break;
 
-              case 13:
-                _context2.prev = 13;
+              case 9:
+                _context2.prev = 9;
                 _context2.t0 = _context2["catch"](0);
 
-                _this2.flashMessage.error({
-                  title: "Ressource indisponible",
-                  time: 8000
-                });
-
-              case 16:
+              case 11:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 13]]);
+        }, _callee2, null, [[0, 9]]);
       }))();
     },
     isEmpty: function isEmpty(title, description, date, priority) {
@@ -2165,7 +2172,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.prev = 0;
 
                 if (!_this.isValid) {
-                  _context.next = 8;
+                  _context.next = 7;
                   break;
                 }
 
@@ -2177,32 +2184,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
                 updatePwdRequest = _context.sent;
-                updatePwdData = updatePwdRequest.data.data.updatePassword;
 
-                if (updatePwdData != null) {
+                if (updatePwdRequest.data.errors) {
                   _this.flashMessage.error({
-                    title: updatePwdData,
+                    title: updatePwdRequest.data.errors[0].message,
                     time: 8000
                   });
                 } else {
-                  _this.oldPassword = '';
-                  _this.newPassword = '';
-                  _this.newPasswordConfirm = '';
-                  _this.isValid = false;
-                  _this.dialog = false;
+                  updatePwdData = updatePwdRequest.data.data.updatePassword;
 
-                  _this.flashMessage.success({
-                    title: "Mise à jour effectuée",
-                    time: 8000
-                  });
+                  if (updatePwdData != null) {
+                    _this.flashMessage.error({
+                      title: updatePwdData,
+                      time: 8000
+                    });
+                  } else {
+                    _this.oldPassword = '';
+                    _this.newPassword = '';
+                    _this.newPasswordConfirm = '';
+                    _this.isValid = false;
+                    _this.dialog = false;
+
+                    _this.flashMessage.success({
+                      title: "Mise à jour effectuée",
+                      time: 8000
+                    });
+                  }
                 }
 
-              case 8:
-                _context.next = 13;
+              case 7:
+                _context.next = 12;
                 break;
 
-              case 10:
-                _context.prev = 10;
+              case 9:
+                _context.prev = 9;
                 _context.t0 = _context["catch"](0);
 
                 _this.flashMessage.error({
@@ -2210,12 +2225,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   time: 8000
                 });
 
-              case 13:
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 10]]);
+        }, _callee, null, [[0, 9]]);
       }))();
     },
     isValidFields: function isValidFields(oldPassword, newPassword, newPasswordConfirm) {
@@ -2288,16 +2303,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 deleteRequest = _context.sent;
-                deleteData = deleteRequest.data.data.setTaskStatus;
 
-                _this.$emit('deleteTask', deleteData);
+                if (deleteRequest.data.errors) {
+                  _this.flashMessage.error({
+                    title: deleteRequest.data.errors[0].message,
+                    time: 8000
+                  });
+                } else {
+                  deleteData = deleteRequest.data.data.setTaskStatus;
 
-                _this.dialog = false;
-                _context.next = 13;
+                  _this.$emit('deleteTask', deleteData);
+
+                  _this.dialog = false;
+                }
+
+                _context.next = 11;
                 break;
 
-              case 10:
-                _context.prev = 10;
+              case 8:
+                _context.prev = 8;
                 _context.t0 = _context["catch"](0);
 
                 _this.flashMessage.error({
@@ -2305,12 +2329,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   time: 8000
                 });
 
-              case 13:
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 10]]);
+        }, _callee, null, [[0, 8]]);
       }))();
     }
   }
@@ -2401,13 +2425,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 selectRequest = _context.sent;
-                selectData = selectRequest.data.data.priorities;
-                _this.items = selectData;
-                _context.next = 12;
+
+                if (selectRequest.data.errors) {
+                  _this.flashMessage.error({
+                    title: selectRequest.data.errors[0].message,
+                    time: 8000
+                  });
+                } else {
+                  selectData = selectRequest.data.data.priorities;
+                  _this.items = selectData;
+                }
+
+                _context.next = 11;
                 break;
 
-              case 9:
-                _context.prev = 9;
+              case 8:
+                _context.prev = 8;
                 _context.t0 = _context["catch"](0);
 
                 _this.flashMessage.error({
@@ -2415,12 +2448,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   time: 8000
                 });
 
-              case 12:
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 9]]);
+        }, _callee, null, [[0, 8]]);
       }))();
     },
     updateTask: function updateTask() {
@@ -2441,17 +2474,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 updateRequest = _context2.sent;
-                updateData = updateRequest.data.data.updateTask;
 
-                _this2.$emit('updateTask', updateData);
+                if (updateRequest.data.errors) {
+                  _this2.flashMessage.error({
+                    title: updateRequest.data.errors[0].message,
+                    time: 8000
+                  });
+                } else {
+                  updateData = updateRequest.data.data.updateTask;
 
-                _this2.closeModal();
+                  _this2.$emit('updateTask', updateData);
 
-                _context2.next = 13;
+                  _this2.closeModal();
+                }
+
+                _context2.next = 11;
                 break;
 
-              case 10:
-                _context2.prev = 10;
+              case 8:
+                _context2.prev = 8;
                 _context2.t0 = _context2["catch"](0);
 
                 _this2.flashMessage.error({
@@ -2459,12 +2500,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   time: 8000
                 });
 
-              case 13:
+              case 11:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 10]]);
+        }, _callee2, null, [[0, 8]]);
       }))();
     }
   }
@@ -2533,7 +2574,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 undoRequest = _context.sent;
                 undoData = undoRequest.data.data.setTaskStatus;
 
-                _this.$emit('undoTask', undoData);
+                if (undoRequest.data.errors) {
+                  _this.flashMessage.error({
+                    title: undoRequest.data.errors[0].message,
+                    time: 8000
+                  });
+                } else {
+                  _this.$emit('undoTask', undoData);
+                }
 
                 _context.next = 12;
                 break;
@@ -2575,7 +2623,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 finishRequest = _context2.sent;
                 finishData = finishRequest.data.data.setTaskStatus;
 
-                _this2.$emit('finishTask', finishData);
+                if (finishRequest.data.errors) {
+                  _this2.flashMessage.error({
+                    title: finishRequest.data.errors[0].message,
+                    time: 8000
+                  });
+                } else {
+                  _this2.$emit('finishTask', finishData);
+                }
 
                 _context2.next = 12;
                 break;
@@ -2928,8 +2983,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.resetToken = this.$route.params.token;
       this.isTokenExist = false;
     }
-
-    console.log();
   },
   methods: {
     sendEmail: function sendEmail() {
@@ -2960,16 +3013,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 sendMailRequest = _context.sent;
                 sendMailData = sendMailRequest.data.data.sendForgottenMail;
 
-                if (sendMailData != null) {
-                  _this.flashMessage.success({
-                    title: sendMailData,
+                if (sendMailRequest.data.errors) {
+                  _this.flashMessage.error({
+                    title: sendMailRequest.data.errors[0].message,
                     time: 8000
                   });
                 } else {
-                  _this.flashMessage.error({
-                    title: "Impossible d'effectuer cette action",
-                    time: 8000
-                  });
+                  if (sendMailData != null) {
+                    _this.flashMessage.success({
+                      title: sendMailData,
+                      time: 8000
+                    });
+                  } else {
+                    _this.flashMessage.error({
+                      title: "Impossible d'effectuer cette action",
+                      time: 8000
+                    });
+                  }
                 }
 
               case 9:
@@ -3251,6 +3311,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     updateNavbar: function updateNavbar(isLogged) {
       this.connected = isLogged;
+    },
+    unathorized: function unathorized(val) {
+      this.connected = val;
     }
   }
 });
@@ -3310,13 +3373,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _connexion_Login_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./connexion/Login.vue */ "./resources/js/application/connexion/Login.vue");
 /* harmony import */ var _connexion_Register_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./connexion/Register.vue */ "./resources/js/application/connexion/Register.vue");
 /* harmony import */ var _views_Dashboard_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/Dashboard.vue */ "./resources/js/application/views/Dashboard.vue");
 /* harmony import */ var _connexion_ResetPassword_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./connexion/ResetPassword.vue */ "./resources/js/application/connexion/ResetPassword.vue");
 /* harmony import */ var _connexion_VerifyEmail_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./connexion/VerifyEmail.vue */ "./resources/js/application/connexion/VerifyEmail.vue");
+/* harmony import */ var _services_apiService_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./_services/apiService.js */ "./resources/js/application/_services/apiService.js");
 
 
 
@@ -3324,8 +3388,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_5__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_6__.default);
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
+
+vue__WEBPACK_IMPORTED_MODULE_6__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_7__.default);
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_7__.default({
   mode: 'history',
   routes: [{
     path: '/dashboard',
@@ -3458,26 +3523,50 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 taskRequest = _context.sent;
-                taskData = taskRequest.data.data.tasks;
-                _this.tasks = taskData;
-                _context.next = 12;
-                break;
 
-              case 9:
-                _context.prev = 9;
-                _context.t0 = _context["catch"](0);
+                if (!taskRequest.data.errors) {
+                  _context.next = 13;
+                  break;
+                }
 
                 _this.flashMessage.error({
-                  title: "Ressource indisponible",
+                  title: taskRequest.data.errors[0].message,
                   time: 8000
                 });
 
-              case 12:
+                if (!(taskRequest.data.errors[0].extensions.category == "authentication")) {
+                  _context.next = 11;
+                  break;
+                }
+
+                localStorage.clear();
+
+                _this.$emit('unathorized', false);
+
+                return _context.abrupt("return", _this.$router.push('/connexion'));
+
+              case 11:
+                _context.next = 15;
+                break;
+
+              case 13:
+                taskData = taskRequest.data.data.tasks;
+                _this.tasks = taskData;
+
+              case 15:
+                _context.next = 19;
+                break;
+
+              case 17:
+                _context.prev = 17;
+                _context.t0 = _context["catch"](0);
+
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 9]]);
+        }, _callee, null, [[0, 17]]);
       }))();
     },
     setSelectPriority: function setSelectPriority() {
@@ -3498,30 +3587,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 selectRequest = _context2.sent;
-                selectData = selectRequest.data.data.priorities;
-                selectData.unshift({
-                  id: "",
-                  label: "Tous"
-                });
-                _this2.items = selectData;
-                _context2.next = 13;
+
+                if (selectRequest.data.errors) {
+                  _this2.flashMessage.error({
+                    title: selectRequest.data.errors[0].message,
+                    time: 8000
+                  });
+                } else {
+                  selectData = selectRequest.data.data.priorities;
+                  selectData.unshift({
+                    id: "",
+                    label: "Tous"
+                  });
+                  _this2.items = selectData;
+                }
+
+                _context2.next = 10;
                 break;
 
-              case 10:
-                _context2.prev = 10;
+              case 8:
+                _context2.prev = 8;
                 _context2.t0 = _context2["catch"](0);
 
-                _this2.flashMessage.error({
-                  title: "Ressource indisponible",
-                  time: 8000
-                });
-
-              case 13:
+              case 10:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 10]]);
+        }, _callee2, null, [[0, 8]]);
       }))();
     },
     addtask: function addtask(val) {
@@ -3557,26 +3650,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 filterRequest = _context3.sent;
-                filterData = filterRequest.data.data.tasks;
-                _this3.tasks = filterData;
-                _context3.next = 12;
+
+                if (filterRequest.data.errors) {
+                  _this3.flashMessage.error({
+                    title: filterRequest.data.errors[0].message,
+                    time: 8000
+                  });
+                } else {
+                  filterData = filterRequest.data.data.tasks;
+                  _this3.tasks = filterData;
+                }
+
+                _context3.next = 10;
                 break;
 
-              case 9:
-                _context3.prev = 9;
+              case 8:
+                _context3.prev = 8;
                 _context3.t0 = _context3["catch"](0);
 
-                _this3.flashMessage.error({
-                  title: "Ressource indisponible",
-                  time: 8000
-                });
-
-              case 12:
+              case 10:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[0, 9]]);
+        }, _callee3, null, [[0, 8]]);
       }))();
     },
     refreshFront: function refreshFront() {
@@ -3597,7 +3694,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           this.getTask();
           break;
       }
-    }
+    },
+    isLogged: function isLogged() {}
   }
 });
 
@@ -24806,7 +24904,11 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-main",
-        [_c("router-view", { on: { updateNavbar: _vm.updateNavbar } })],
+        [
+          _c("router-view", {
+            on: { updateNavbar: _vm.updateNavbar, unathorized: _vm.unathorized }
+          })
+        ],
         1
       ),
       _vm._v(" "),

@@ -50,8 +50,15 @@ export default{
                     query: `{priorities{id label}} `
                 };
                 const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const selectData = selectRequest.data.data.priorities;
-                this.items = selectData;
+                if (selectRequest.data.errors) {
+                    this.flashMessage.error({
+                        title: selectRequest.data.errors[0].message,
+                        time: 8000,
+                    })
+                } else {
+                    const selectData = selectRequest.data.data.priorities;
+                    this.items = selectData;
+                }
             } catch (error) {
                 this.flashMessage.error({
                     title: "Ressource indisponible",
@@ -75,9 +82,16 @@ export default{
                     }`
                 };
                 const updateRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const updateData = updateRequest.data.data.updateTask;
-                this.$emit('updateTask', updateData);
-                this.closeModal();
+                if (updateRequest.data.errors) {
+                    this.flashMessage.error({
+                        title: updateRequest.data.errors[0].message,
+                        time: 8000,
+                    })
+                } else {
+                    const updateData = updateRequest.data.data.updateTask;
+                    this.$emit('updateTask', updateData);
+                    this.closeModal();
+                }
             } catch (error) {
                 this.flashMessage.error({
                     title: "Ressource indisponible",

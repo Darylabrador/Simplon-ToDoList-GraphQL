@@ -50,13 +50,21 @@ export default{
                     query: `{priorities{id label}} `
                 };
                 const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const selectData = selectRequest.data.data.priorities;
-                this.items = selectData;
+                if (selectRequest.data.errors) {
+                    this.flashMessage.error({
+                        title: selectRequest.data.errors[0].message,
+                        time: 8000,
+                    })
+                } else {
+                    const selectData = selectRequest.data.data.priorities;
+                    this.items = selectData;
+                } 
+               
             } catch (error) {
-                this.flashMessage.error({
-                    title: "Ressource indisponible",
-                    time: 8000,
-                })
+                // this.flashMessage.error({
+                //     title: "Ressource indisponible",
+                //     time: 8000,
+                // })
             }
         },
         async addTask() {
@@ -75,20 +83,27 @@ export default{
                         }`
                     };
                     const addTaskRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                    const addTaskData = addTaskRequest.data.data.createTask;
-                    this.isValid     = false;
-                    this.dialog      = false;
-                    this.flashMessage.success({
-                        title: "Tâche ajouter avec succès",
-                        time: 8000,
-                    });
-                    this.$emit('addtask', addTaskData);
+                    if (addTaskRequest.data.errors) {
+                        this.flashMessage.error({
+                            title: addTaskRequest.data.errors[0].message,
+                            time: 8000,
+                        })
+                    } else {
+                        const addTaskData = addTaskRequest.data.data.createTask;
+                        this.isValid = false;
+                        this.dialog = false;
+                        this.flashMessage.success({
+                            title: "Tâche ajouter avec succès",
+                            time: 8000,
+                        });
+                        this.$emit('addtask', addTaskData);
+                    } 
                 }
             } catch (error) {
-                this.flashMessage.error({
-                    title: "Ressource indisponible",
-                    time: 8000,
-                })
+                // this.flashMessage.error({
+                //     title: "Ressource indisponible",
+                //     time: 8000,
+                // })
             }
         },
         isEmpty(title, description, date, priority){

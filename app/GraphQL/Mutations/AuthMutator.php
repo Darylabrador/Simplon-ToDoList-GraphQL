@@ -228,6 +228,17 @@ class AuthMutator
     }
 
 
+    /**
+     * check token validity
+     */
+    public function verifyToken($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
+    {
+        if(Auth::check()){
+            return '';
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Logout's resolver

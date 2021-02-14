@@ -64,13 +64,27 @@ export default {
                     }`,
                 };
                 const taskRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const taskData    =  taskRequest.data.data.tasks;
-                this.tasks = taskData;
+                if(taskRequest.data.errors){
+                    this.flashMessage.error({
+                        title: taskRequest.data.errors[0].message,
+                        time: 8000,
+                    })
+
+                    if (taskRequest.data.errors[0].extensions.category == "authentication"){
+                        localStorage.clear();
+                        this.$emit('unathorized', false);
+                        return this.$router.push('/connexion');
+                    }
+                } else {
+                    const taskData  =  taskRequest.data.data.tasks;
+                    this.tasks      = taskData;
+                }
             } catch (error) {
-                this.flashMessage.error({
-                    title: "Ressource indisponible",
-                    time: 8000,
-                })
+                // console.log(error)
+                // this.flashMessage.error({
+                //     title: "Ressource indisponible",
+                //     time: 8000,
+                // })
             }
         },
         async setSelectPriority() {
@@ -79,14 +93,22 @@ export default {
                     query: `{priorities{id label}} `
                 };
                 const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const selectData = selectRequest.data.data.priorities;
-                selectData.unshift({id: "", label: "Tous"})
-                this.items = selectData;
+                
+                if (selectRequest.data.errors) {
+                    this.flashMessage.error({
+                        title: selectRequest.data.errors[0].message,
+                        time: 8000,
+                    })
+                } else {
+                    const selectData = selectRequest.data.data.priorities;
+                    selectData.unshift({ id: "", label: "Tous" })
+                    this.items = selectData;
+                } 
             } catch (error) {
-                this.flashMessage.error({
-                    title: "Ressource indisponible",
-                    time: 8000,
-                })
+                // this.flashMessage.error({
+                //     title: "Ressource indisponible",
+                //     time: 8000,
+                // })
             }
         },
         addtask(val){
@@ -115,13 +137,20 @@ export default {
                     }`
                 };
                 const filterRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const filterData = filterRequest.data.data.tasks;
-                this.tasks = filterData;
+                if (filterRequest.data.errors) {
+                    this.flashMessage.error({
+                        title: filterRequest.data.errors[0].message,
+                        time: 8000,
+                    })
+                } else {
+                    const filterData = filterRequest.data.data.tasks;
+                    this.tasks = filterData;
+                } 
             } catch (error) {
-                this.flashMessage.error({
-                    title: "Ressource indisponible",
-                    time: 8000,
-                })
+                // this.flashMessage.error({
+                //     title: "Ressource indisponible",
+                //     time: 8000,
+                // })
             }
         },
         refreshFront() {
@@ -139,6 +168,9 @@ export default {
                     this.getTask()
                     break;
             }
+        },
+        isLogged(){
+            
         }
     }
 }

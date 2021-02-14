@@ -40,8 +40,8 @@ export default {
                     };
                     const loginRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
                     const loginData = loginRequest.data.data.login;
-
-                    if (loginData[0] == "0"){
+                 
+                    if (loginData[0] == "0") {
                         this.flashMessage.error({
                             title: loginData[1],
                             time: 8000,
@@ -50,7 +50,7 @@ export default {
 
                     if (loginData[0] == "1") {
                         localStorage.setItem('zotToken', loginData[1]);
-                        this.email    = "";
+                        this.email = "";
                         this.password = "";
                         this.$emit('updateNavbar', true);
                         this.$router.push('/dashboard');

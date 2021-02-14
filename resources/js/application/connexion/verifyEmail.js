@@ -32,7 +32,7 @@ export default {
                 };
                 const verifyRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
                 const verifyData = verifyRequest.data.data.verifyMail;
-
+   
                 if (verifyData[0] == "0") {
                     this.message = verifyData[1];
                 }
@@ -40,6 +40,7 @@ export default {
                 if (verifyData[0] == "1") {
                     this.message = verifyData[1];
                 }
+                
             } catch (error) {
                 this.flashMessage.error({
                     title: "Impossible d'effectuer cette action",

@@ -5,7 +5,7 @@ import Register from './connexion/Register.vue';
 import Dashboard from './views/Dashboard.vue';
 import ResetPassword from './connexion/ResetPassword.vue';
 import VerifyEmail from './connexion/VerifyEmail.vue';
-
+import { apiService } from './_services/apiService.js';
 Vue.use(VueRouter);
 
 const router = new VueRouter({
