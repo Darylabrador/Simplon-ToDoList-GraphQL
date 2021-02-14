@@ -2817,9 +2817,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       passwordRules: [function (v) {
         return !!v || 'Mot de passe requis';
+      }, function (v) {
+        return v.length > 5 || '6 caractères minimuns';
       }],
       passwordConfirmRules: [function (v) {
         return !!v || 'Mot de passe requis';
+      }, function (v) {
+        return v.length > 5 || '6 caractères minimuns';
       }],
       loginPath: "/connexion"
     };
@@ -3373,14 +3377,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _connexion_Login_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./connexion/Login.vue */ "./resources/js/application/connexion/Login.vue");
 /* harmony import */ var _connexion_Register_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./connexion/Register.vue */ "./resources/js/application/connexion/Register.vue");
 /* harmony import */ var _views_Dashboard_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/Dashboard.vue */ "./resources/js/application/views/Dashboard.vue");
 /* harmony import */ var _connexion_ResetPassword_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./connexion/ResetPassword.vue */ "./resources/js/application/connexion/ResetPassword.vue");
 /* harmony import */ var _connexion_VerifyEmail_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./connexion/VerifyEmail.vue */ "./resources/js/application/connexion/VerifyEmail.vue");
-/* harmony import */ var _services_apiService_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./_services/apiService.js */ "./resources/js/application/_services/apiService.js");
 
 
 
@@ -3388,9 +3391,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-vue__WEBPACK_IMPORTED_MODULE_6__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_7__.default);
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_7__.default({
+vue__WEBPACK_IMPORTED_MODULE_5__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_6__.default);
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
   mode: 'history',
   routes: [{
     path: '/dashboard',
@@ -3403,6 +3405,10 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_7__.default({
     path: '/inscription',
     name: 'register',
     component: _connexion_Register_vue__WEBPACK_IMPORTED_MODULE_1__.default
+  }, {
+    path: '/',
+    name: 'accueil',
+    component: _connexion_Login_vue__WEBPACK_IMPORTED_MODULE_0__.default
   }, {
     path: '/connexion',
     name: 'login',
@@ -3525,17 +3531,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 taskRequest = _context.sent;
 
                 if (!taskRequest.data.errors) {
-                  _context.next = 13;
+                  _context.next = 12;
                   break;
                 }
 
-                _this.flashMessage.error({
-                  title: taskRequest.data.errors[0].message,
-                  time: 8000
-                });
-
                 if (!(taskRequest.data.errors[0].extensions.category == "authentication")) {
-                  _context.next = 11;
+                  _context.next = 10;
                   break;
                 }
 
@@ -3545,28 +3546,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 return _context.abrupt("return", _this.$router.push('/connexion'));
 
-              case 11:
-                _context.next = 15;
+              case 10:
+                _context.next = 14;
                 break;
 
-              case 13:
+              case 12:
                 taskData = taskRequest.data.data.tasks;
                 _this.tasks = taskData;
 
-              case 15:
-                _context.next = 19;
+              case 14:
+                _context.next = 18;
                 break;
 
-              case 17:
-                _context.prev = 17;
+              case 16:
+                _context.prev = 16;
                 _context.t0 = _context["catch"](0);
 
-              case 19:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 17]]);
+        }, _callee, null, [[0, 16]]);
       }))();
     },
     setSelectPriority: function setSelectPriority() {
@@ -3588,11 +3589,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 4:
                 selectRequest = _context2.sent;
 
-                if (selectRequest.data.errors) {
-                  _this2.flashMessage.error({
-                    title: selectRequest.data.errors[0].message,
-                    time: 8000
-                  });
+                if (selectRequest.data.errors) {// this.flashMessage.error({
+                  //     title: selectRequest.data.errors[0].message,
+                  //     time: 8000,
+                  // })
                 } else {
                   selectData = selectRequest.data.data.priorities;
                   selectData.unshift({
@@ -3651,11 +3651,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 4:
                 filterRequest = _context3.sent;
 
-                if (filterRequest.data.errors) {
-                  _this3.flashMessage.error({
-                    title: filterRequest.data.errors[0].message,
-                    time: 8000
-                  });
+                if (filterRequest.data.errors) {// this.flashMessage.error({
+                  //     title: filterRequest.data.errors[0].message,
+                  //     time: 8000,
+                  // })
                 } else {
                   filterData = filterRequest.data.data.tasks;
                   _this3.tasks = filterData;

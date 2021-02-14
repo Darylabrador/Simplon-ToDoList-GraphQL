@@ -65,11 +65,6 @@ export default {
                 };
                 const taskRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 if(taskRequest.data.errors){
-                    this.flashMessage.error({
-                        title: taskRequest.data.errors[0].message,
-                        time: 8000,
-                    })
-
                     if (taskRequest.data.errors[0].extensions.category == "authentication"){
                         localStorage.clear();
                         this.$emit('unathorized', false);
@@ -95,10 +90,10 @@ export default {
                 const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 
                 if (selectRequest.data.errors) {
-                    this.flashMessage.error({
-                        title: selectRequest.data.errors[0].message,
-                        time: 8000,
-                    })
+                    // this.flashMessage.error({
+                    //     title: selectRequest.data.errors[0].message,
+                    //     time: 8000,
+                    // })
                 } else {
                     const selectData = selectRequest.data.data.priorities;
                     selectData.unshift({ id: "", label: "Tous" })
@@ -138,10 +133,10 @@ export default {
                 };
                 const filterRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 if (filterRequest.data.errors) {
-                    this.flashMessage.error({
-                        title: filterRequest.data.errors[0].message,
-                        time: 8000,
-                    })
+                    // this.flashMessage.error({
+                    //     title: filterRequest.data.errors[0].message,
+                    //     time: 8000,
+                    // })
                 } else {
                     const filterData = filterRequest.data.data.tasks;
                     this.tasks = filterData;

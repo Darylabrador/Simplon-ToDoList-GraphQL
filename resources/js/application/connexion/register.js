@@ -16,9 +16,11 @@ export default {
         ],
         passwordRules: [
             v => !!v || 'Mot de passe requis',
+            v => v.length > 5 || '6 caractères minimuns',
         ], 
         passwordConfirmRules: [
             v => !!v || 'Mot de passe requis',
+            v => v.length > 5 || '6 caractères minimuns',
         ],
         loginPath: "/connexion"
     }),
