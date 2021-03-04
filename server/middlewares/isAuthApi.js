@@ -11,26 +11,27 @@ module.exports = (req, res, next) => {
     const authorizationHeader = req.get('Authorization');
 
     // check if we have the authorization Header
-    if(!authorizationHeader) {
-        return res.status(401).json({
-            success: false,
-            message: 'Action impossible',
-        });
+    if (!authorizationHeader) {
+        req.isAuth = false;
+        return next();
     }
 
-    // Try to decode the token Bearer using the secret to know if it's authorized actions
     const token = authorizationHeader.split(' ')[1];
     let decodedToken;
 
     try {
         decodedToken = jwt.verify(token, process.env.JWT_SECRET)
     } catch (error) {
-        return res.status(200).json({
-            success: false,
-            message: 'Action impossible',
-        });
+        req.isAuth = false;
+        return next();
+    }
+
+    if (!decodedToken) {
+        req.isAuth = false;
+        return next();
     }
 
     req.userId = decodedToken.userId;
+    req.isAuth = true;
     next();
 }

@@ -1,4 +1,3 @@
-var createError   = require('http-errors');
 var express       = require('express');
 var path          = require('path');
 var cookieParser  = require('cookie-parser');
@@ -6,7 +5,6 @@ var logger        = require('morgan');
 
 // Config parts
 const dotenv    = require('dotenv').config();
-const flash     = require('connect-flash');
 const helmet    = require('helmet');
 
 // API configuration (middleware)
@@ -17,8 +15,6 @@ const isAuthAPI = require('./middlewares/isAuthApi');
 const { graphqlHTTP } = require('express-graphql');
 const graphqlSchema   = require('./graphql/schema');
 const graphqlResolver = require('./graphql/resolvers');
-
-// Database connexion 
 
 var app = express();
 
@@ -32,9 +28,26 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Use middleware
-app.use(headerApi);
 
+// Use middlewares
+app.use(headerApi);
+app.use(isAuthAPI);
+
+// Graphql route
+app.use('/graphql', graphqlHTTP({
+  schema: graphqlSchema,
+  rootValue: graphqlResolver,
+  graphiql: true,
+  customFormatErrorFn(err) {
+    if (!err.originalError) {
+      return err;
+    }
+    const data = err.originalError.data;
+    const message = err.message || 'An error occurred.';
+    const code = err.originalError.code || 500;
+    return { message: message, status: code, data: data };
+  }
+}));
 
 
 // Error handler

@@ -36,7 +36,7 @@ const User = sequelize.define('User', {
         type: DataTypes.TEXT,
         allowNull: true,
     },
-    verified_at: {
+    verifiedAt: {
         type: DataTypes.DATE,
         allowNull: true,
     }
