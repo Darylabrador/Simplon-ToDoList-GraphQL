@@ -6,6 +6,7 @@ const dotenv    = require('dotenv').config();
 
 const nodemailer = require('nodemailer');
 const sengridTransport = require('nodemailer-sendgrid-transport');
+const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
 
 // Models imports
 const User      = require('../models/user');
@@ -26,8 +27,15 @@ const transporter = nodemailer.createTransport(sengridTransport({
 }));
 
 
+// Custom scalar for date & dateTime
+const customScalarResolver = {
+    Date: GraphQLDate,
+    DateTime: GraphQLDateTime
+}
+
 // Resolvers functions
 module.exports = {
+    customScalarResolver,
     createUser: async function ({ userInput }, req) {
         try {
             const errors   = [];

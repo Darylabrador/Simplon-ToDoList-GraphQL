@@ -1,6 +1,9 @@
 const { buildSchema } = require('graphql');
 
 module.exports = buildSchema(`
+    scalar Date
+    scalar DateTime
+    
     type User {
         id: ID!
         pseudo: String!
