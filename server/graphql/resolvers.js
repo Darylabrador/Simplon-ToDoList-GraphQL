@@ -118,7 +118,7 @@ module.exports = {
                 message: 'Un email de vérification a été envoyer'
             }
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     updatePassword: async function({ passwordInput }, req) {
@@ -193,7 +193,7 @@ module.exports = {
                 message: 'Mise à jour effectuée'
             }
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     login: async function({ email, password }, req) {
@@ -220,7 +220,7 @@ module.exports = {
                 token
             }
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     logout: async function() {
@@ -233,7 +233,7 @@ module.exports = {
             req.isAuth = false;
             return true;
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     sendForgottenMail: async function({email}, req){
@@ -275,7 +275,7 @@ module.exports = {
                 message: "L'e-mail de réinitialisation a été envoyé"
             }
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     resetForgotten: async function ({ newPassword, newPasswordConfirm, resetToken }, req){
@@ -335,7 +335,7 @@ module.exports = {
                 message: 'Mise à jour effectuée'
             }
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     verifyMail: async function ({ confirmToken }, req){
@@ -359,7 +359,7 @@ module.exports = {
                 message: 'Adresse e-mail vérifier avec succès'
             }
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     createTask: async function ({ taskInput }, req){
@@ -381,7 +381,7 @@ module.exports = {
 
             return task;
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     updateTask: async function ({ updateTaskInput }, req){
@@ -404,7 +404,7 @@ module.exports = {
             });
             return task;
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     setTaskStatus: async function ({ statusTaskInput }, req){
@@ -424,7 +424,7 @@ module.exports = {
             });
             return task;
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     deleteTask: async function({ id }, req){
@@ -441,19 +441,29 @@ module.exports = {
             await taskExist.destroy();
             return taskExist;
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     users: async function(args, req){
         try {
+            if (!req.isAuth) {
+                const error = new Error('Not authenticated');
+                error.code = 401;
+                throw error;
+            }
             const usersList = await User.findAll();
             return usersList;
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     user: async function({ id }, req){
         try {
+            if (!req.isAuth) {
+                const error = new Error('Not authenticated');
+                error.code = 401;
+                throw error;
+            }
             const userExist = await User.findOne({ id });
             if (!userExist) {
                 const error = new Error({ success: false, message: 'Utilisateur inexistante' });
@@ -461,19 +471,29 @@ module.exports = {
             }
             return userExist;
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     priorities: async function(args, req){
         try {
+            if (!req.isAuth) {
+                const error = new Error('Not authenticated');
+                error.code = 401;
+                throw error;
+            }
             const priorityList = await Priority.findAll();
             return priorityList;
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     priority: async function({ id }, req){
         try {
+            if (!req.isAuth) {
+                const error = new Error('Not authenticated');
+                error.code = 401;
+                throw error;
+            }
             const priorityExist = await Priority.findOne({ id });
             if (!priorityExist) {
                 const error = new Error({ success: false, message: 'Priorité inexistante' });
@@ -481,22 +501,32 @@ module.exports = {
             }
             return priorityExist;
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     tasks: async function(args, req){
         try {
+            if (!req.isAuth) {
+                const error = new Error('Not authenticated');
+                error.code = 401;
+                throw error;
+            }
             const taskList = await Task.findOne({
                 order: [['deadline', 'ASC']],
                 include: [{ model: Priority }, { model: User }]
             });
             return taskList;
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     },
     filterTask: async function ({ priorityId }, req){
         try {
+            if (!req.isAuth) {
+                const error = new Error('Not authenticated');
+                error.code = 401;
+                throw error;
+            }
             const priorityExist = await Priority.findOne({ priorityId });
             if (!priorityExist) {
                 const error = new Error({ success: false, message: 'Priorité inexistante' });
@@ -509,7 +539,7 @@ module.exports = {
             });
             return taskList;
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     }
 }
