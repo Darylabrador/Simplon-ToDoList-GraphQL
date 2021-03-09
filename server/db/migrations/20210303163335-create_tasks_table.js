@@ -65,7 +65,6 @@ module.exports = {
         table: 'priorities',
         field: 'id'
       },
-      onDelete: 'cascade',
       onUpdate: 'cascade'
     });
   },
