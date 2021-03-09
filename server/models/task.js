@@ -25,7 +25,15 @@ const Task = sequelize.define('Task', {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
-    }
+    },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    priorityId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
 },
     {
         // Soft delete options (timestamps need to be true)

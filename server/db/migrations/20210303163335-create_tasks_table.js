@@ -27,6 +27,14 @@ module.exports = {
         allowNull: false,
         defaultValue: false
       },
+      userId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+      },
+      priorityId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false
@@ -35,6 +43,30 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false
       }
+    });
+
+    await queryInterface.addConstraint('tasks', {
+      fields: ['userId'],
+      type: 'foreign key',
+      name: 'fk_userId',
+      references: { //Required field
+        table: 'users',
+        field: 'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+
+    await queryInterface.addConstraint('tasks', {
+      fields: ['priorityId'],
+      type: 'foreign key',
+      name: 'fk_priorityId',
+      references: { //Required field
+        table: 'priorities',
+        field: 'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
     });
   },
 

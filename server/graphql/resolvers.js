@@ -16,8 +16,8 @@ const Task      = require('../models/task');
 // Setting relation between models
 User.hasMany(Task);
 Priority.hasMany(Task);
-Task.belongsTo(User);
-Task.belongsTo(Priority);
+Task.belongsTo(User, {foreignKey: 'userId'});
+Task.belongsTo(Priority, {foreignKey: 'priorityId'});
 
 // Send mail configuration
 const transporter = nodemailer.createTransport(sengridTransport({

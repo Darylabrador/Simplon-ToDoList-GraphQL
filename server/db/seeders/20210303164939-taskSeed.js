@@ -10,7 +10,7 @@ module.exports = {
     for (let i = 1; i < 15; i++) {
       data.push({
         title: `Tache ${i}`,
-        description: faker.lorem.text(),
+        description: faker.lorem.text(50),
         deadline: faker.date.between('2021-03-03', '2021-03-08'),
         done: faker.random.number({min: 0, max: 1}),
         userId: 1,
