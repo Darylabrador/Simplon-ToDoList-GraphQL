@@ -40,20 +40,20 @@ module.exports = {
         try {
             const errors   = [];
 
-            if(!validator.isEmail()){
-                errors.push({ success: false, message: 'Adresse email invalide' });
+            if(!validator.isEmail(userInput.email)){
+                errors.push('Adresse email invalide');
             }
 
             if ( validator.isEmpty(userInput.password) || !validator.isLength(userInput.password, { min: 6 })) {
-                errors.push({ success: false, message: 'Mot de passe : 6 caractères minimum' });
+                errors.push('Mot de passe : 6 caractères minimum' );
             }
 
             if (validator.isEmpty(userInput.passwordConfirm) || !validator.isLength(userInput.passwordConfirm, { min: 6 })) {
-                errors.push({ success: false, message: 'Mot de passe : 6 caractères minimum' });
+                errors.push('Mot de passe : 6 caractères minimum');
             }
 
             if (userInput.password != userInput.passwordConfirm){
-                errors.push({ success: false, message: 'Les mots de passe ne sont pas identiques' });
+                errors.push('Les mots de passe ne sont pas identiques');
             }
 
             if (errors.length > 0) {
@@ -63,15 +63,15 @@ module.exports = {
                 throw error;
             }
 
-            const existingPseudo = await User.findOne({ email: userInput.pseudo });
+            const existingPseudo = await User.findOne({ where: {pseudo: userInput.pseudo }});
             if (existingPseudo) {
-                const error = new Error({ success: false, message: 'Pseudo existe déjà' });
+                const error = new Error('Pseudo existe déjà');
                 throw error;
             };
 
-            const existingEmail = await User.findOne({ email: userInput.email });
+            const existingEmail = await User.findOne({ where: {email: userInput.email}});
             if (existingEmail) {
-                const error = new Error({ success: false, message: 'Adresse email existe déjà' });
+                const error = new Error('Adresse email existe déjà');
                 throw error;
             };
 
@@ -113,11 +113,9 @@ module.exports = {
                 </p>`
             });
 
-            return {
-                success: true,
-                message: 'Un email de vérification a été envoyer'
-            }
+            return  'Un email de vérification a été envoyer';
         } catch (err) {
+            console.log(err)
             throw err;
         }
     },
@@ -132,19 +130,19 @@ module.exports = {
             const errors = [];
 
             if (validator.isEmpty(passwordInput.oldPassword) || !validator.isLength(passwordInput.oldPassword, { min: 6 })) {
-                errors.push({ success: false, message: 'Mot de passe : 6 caractères minimum' });
+                errors.push('Mot de passe : 6 caractères minimum');
             }
 
             if (validator.isEmpty(passwordInput.password) || !validator.isLength(passwordInput.password, { min: 6 })) {
-                errors.push({ success: false, message: 'Mot de passe : 6 caractères minimum' });
+                errors.push('Mot de passe : 6 caractères minimum');
             }
 
             if (validator.isEmpty(passwordInput.passwordConfirm) || !validator.isLength(userInput.passwordConfirm, { min: 6 })) {
-                errors.push({ success: false, message: 'Mot de passe : 6 caractères minimum' });
+                errors.push('Mot de passe : 6 caractères minimum');
             }
 
             if (passwordInput.password != passwordInput.passwordConfirm) {
-                errors.push({ success: false, message: 'Les mots de passe ne sont pas identiques' });
+                errors.push('Les mots de passe ne sont pas identiques');
             }
 
             if (errors.length > 0) {
@@ -154,15 +152,15 @@ module.exports = {
                 throw error;
             }
 
-            const existingUser = await User.findOne({ id: req.userId });
+            const existingUser = await User.findOne({ where: { id: req.userId } });
             if (!existingUser){
-                const error = new Error({ success: false, message: 'Utilisateur inexistant' });
+                const error = new Error('Utilisateur inexistant');
                 throw error;
             }
 
             const isEqual      = await bcrypt.compare(passwordInput.password, existingUser.password);
             if(!isEqual) {
-                const error = new Error({ success: false, message: 'Ancien mot de passe incorrecte' });
+                const error = new Error('Ancien mot de passe incorrecte' );
                 throw error;
             }
 
@@ -188,21 +186,18 @@ module.exports = {
                 </p>`
             });
 
-            return {
-                success: true,
-                message: 'Mise à jour effectuée'
-            }
+            return  'Mise à jour effectuée';
         } catch (err) {
             throw err;
         }
     },
     login: async function({ email, password }, req) {
         try {
-            const user = await User.findOne({ email: email });
+            const user = await User.findOne({ where: { email: email }});
             const isEqual = await bcrypt.compare(password, user.password);
 
             if (!user || !isEqual) {
-                const error = new Error({ success: false, message: 'Adresse email ou mot de passe invalide' });
+                const error = new Error('Adresse email ou mot de passe invalide');
                 throw error;
             }
 
@@ -215,10 +210,7 @@ module.exports = {
                 { expiresIn: '1h' }
             );
 
-            return {
-                success: true,
-                token
-            }
+            return token;
         } catch (err) {
             throw err;
         }
@@ -238,9 +230,9 @@ module.exports = {
     },
     sendForgottenMail: async function({email}, req){
         try {
-            const user = await User.findOne({ email: email });
+            const user = await User.findOne({ where: { email: email }});
             if (!user) {
-                const error = new Error({ success: false, message: 'Adresse email inexistant' });
+                const error = new Error('Adresse email inexistant');
                 throw error;
             }
 
@@ -270,10 +262,7 @@ module.exports = {
                 </p>`
             });
 
-            return {
-                success: true,
-                message: "L'e-mail de réinitialisation a été envoyé"
-            }
+            return  "L'e-mail de réinitialisation a été envoyé";
         } catch (err) {
             throw err;
         }
@@ -283,15 +272,15 @@ module.exports = {
             const errors = [];
 
             if (validator.isEmpty(newPassword) || !validator.isLength(newPassword, { min: 6 })) {
-                errors.push({ success: false, message: 'Mot de passe : 6 caractères minimum' });
+                errors.push('Mot de passe : 6 caractères minimum');
             }
 
             if (validator.isEmpty(newPasswordConfirm) || !validator.isLength(newPasswordConfirm, { min: 6 })) {
-                errors.push({ success: false, message: 'Mot de passe : 6 caractères minimum' });
+                errors.push('Mot de passe : 6 caractères minimum');
             }
 
             if (newPassword != newPasswordConfirm ) {
-                errors.push({ success: false, message: 'Les mots de passe ne sont pas identiques' });
+                errors.push('Les mots de passe ne sont pas identiques');
             }
 
             if (errors.length > 0) {
@@ -301,9 +290,9 @@ module.exports = {
                 throw error;
             }
 
-            const user = await User.findOne({ resetToken });
+            const user = await User.findOne({ where: { resetToken }});
             if (!user) {
-                const error = new Error({ success: false, message: 'Jeton invalide' });
+                const error = new Error('Jeton invalide');
                 throw error;
             }
 
@@ -330,17 +319,14 @@ module.exports = {
                 </p>`
             });
 
-            return {
-                success: true,
-                message: 'Mise à jour effectuée'
-            }
+            return  'Mise à jour effectuée';
         } catch (err) {
             throw err;
         }
     },
     verifyMail: async function ({ confirmToken }, req){
         try {
-            const user = await User.findOne({ confirmToken });
+            const user = await User.findOne({ where: { confirmToken }});
             if (!user) {
                 const error = new Error({ success: false, message: 'Jeton invalide' });
                 throw error;
@@ -354,10 +340,7 @@ module.exports = {
             user.verifiedAt = Date.now().toString();
             await user.save();
 
-            return {
-                success: true,
-                message: 'Adresse e-mail vérifier avec succès'
-            }
+            return  'Adresse e-mail vérifier avec succès';
         } catch (err) {
             throw err;
         }
@@ -386,9 +369,9 @@ module.exports = {
     },
     updateTask: async function ({ updateTaskInput }, req){
         try {
-            const taskExist = await Task.findOne({id: updateTaskInput.id});
+            const taskExist = await Task.findOne({ where: { id: updateTaskInput.id }});
             if (!taskExist) {
-                const error = new Error({ success: false, message: 'Tâche inexistante' });
+                const error = new Error('Tâche inexistante');
                 throw error;
             }
 
@@ -409,9 +392,9 @@ module.exports = {
     },
     setTaskStatus: async function ({ statusTaskInput }, req){
         try {
-            const taskExist = await Task.findOne({ id: statusTaskInput.id });
+            const taskExist = await Task.findOne({ where: { id: statusTaskInput.id }});
             if (!taskExist) {
-                const error = new Error({ success: false, message: 'Tâche inexistante' });
+                const error = new Error('Tâche inexistante');
                 throw error;
             }
 
@@ -434,7 +417,7 @@ module.exports = {
                 include: [{ model: Priority }, { model: User }]
             });
             if (!taskExist) {
-                const error = new Error({ success: false, message: 'Tâche inexistante' });
+                const error = new Error('Tâche inexistante');
                 throw error;
             }
 
@@ -464,9 +447,9 @@ module.exports = {
                 error.code = 401;
                 throw error;
             }
-            const userExist = await User.findOne({ id });
+            const userExist = await User.findOne({ where: { id } });
             if (!userExist) {
-                const error = new Error({ success: false, message: 'Utilisateur inexistante' });
+                const error = new Error('Utilisateur inexistante');
                 throw error;
             }
             return userExist;
@@ -494,9 +477,9 @@ module.exports = {
                 error.code = 401;
                 throw error;
             }
-            const priorityExist = await Priority.findOne({ id });
+            const priorityExist = await Priority.findOne({ where: { id } });
             if (!priorityExist) {
-                const error = new Error({ success: false, message: 'Priorité inexistante' });
+                const error = new Error('Priorité inexistante');
                 throw error;
             }
             return priorityExist;
@@ -511,7 +494,7 @@ module.exports = {
                 error.code = 401;
                 throw error;
             }
-            const taskList = await Task.findOne({
+            const taskList = await Task.findAll({
                 order: [['deadline', 'ASC']],
                 include: [{ model: Priority }, { model: User }]
             });
@@ -527,9 +510,9 @@ module.exports = {
                 error.code = 401;
                 throw error;
             }
-            const priorityExist = await Priority.findOne({ priorityId });
+            const priorityExist = await Priority.findOne({ where: { priorityId } });
             if (!priorityExist) {
-                const error = new Error({ success: false, message: 'Priorité inexistante' });
+                const error = new Error('Priorité inexistante');
                 throw error;
             }
             const taskList = await Task.findAll({

@@ -76,13 +76,13 @@ module.exports = buildSchema(`
     }
 
     type RootMutation {
-        createUser(userInput: UserInputData): [String!]
+        createUser(userInput: UserInputData): String
         updatePassword(passwordInput: UpdatePasswordInputData): String
-        login(email: String!, password: String!): [String!]
+        login(email: String!, password: String!): String
         logout: Boolean
         sendForgottenMail(email: String): String
         resetForgotten(newPassword: String!, newPasswordConfirm: String!, resetToken: String!): String
-        verifyMail(confirmToken: String! ): [String!]
+        verifyMail(confirmToken: String! ): String
         createTask(taskInput: TaskInputData): Task
         updateTask(updateTaskInput: UpdateTaskInputData): Task
         setTaskStatus(statusTaskInput: TaskStatusInputData): Task
