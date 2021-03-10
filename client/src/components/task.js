@@ -54,13 +54,13 @@ export default {
             try {
                 const graphqlQuery = {
                     query: `
-                mutation{
-                    setTaskStatus(statusTaskInput: {
-                        id: ${taskId}
-                        done: true
-                    })
-                    {id title description deadline done priority{id label} user{id pseudo}}
-                }`
+                    mutation{
+                        setTaskStatus(statusTaskInput: {
+                            id: ${taskId}
+                            done: true
+                        })
+                        {id title description deadline done priority{id label} user{id pseudo}}
+                    }`
                 };
                 // const finishRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const finishRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
