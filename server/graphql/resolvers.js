@@ -137,7 +137,7 @@ module.exports = {
                 errors.push('Mot de passe : 6 caractères minimum');
             }
 
-            if (validator.isEmpty(passwordInput.passwordConfirm) || !validator.isLength(userInput.passwordConfirm, { min: 6 })) {
+            if (validator.isEmpty(passwordInput.passwordConfirm) || !validator.isLength(passwordInput.passwordConfirm, { min: 6 })) {
                 errors.push('Mot de passe : 6 caractères minimum');
             }
 
@@ -158,7 +158,7 @@ module.exports = {
                 throw error;
             }
 
-            const isEqual      = await bcrypt.compare(passwordInput.password, existingUser.password);
+            const isEqual = await bcrypt.compare(passwordInput.oldPassword, existingUser.password);
             if(!isEqual) {
                 const error = new Error('Ancien mot de passe incorrecte' );
                 throw error;

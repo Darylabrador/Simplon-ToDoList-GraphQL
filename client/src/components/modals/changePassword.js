@@ -52,38 +52,32 @@ export default{
                     const graphqlQuery = {
                         query: `
                         mutation{
-                            updatePassword(
+                            updatePassword(passwordInput:{
                                 oldPassword: "${this.oldPassword}" 
                                 password: "${this.newPassword}" 
-                                passwordConfirm: "${this.newPasswordConfirm}" 
-                            )
+                                passwordConfirm: "${this.newPasswordConfirm}"
+                            })
                         }`
                     };
-                    const updatePwdRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                    
-                    if (updatePwdRequest.data.errors) {
+                    // const updatePwdRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
+                    const updatePwdRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                    const updatePwdErrors = updatePwdRequest.data.errors;
+
+                    if (updatePwdErrors) {
                         this.flashMessage.error({
-                            title: updatePwdRequest.data.errors[0].message,
+                            title: updatePwdErrors[0].message,
                             time: 8000,
                         })
                     } else {
-                        const updatePwdData = updatePwdRequest.data.data.updatePassword;
-                        if (updatePwdData != null) {
-                            this.flashMessage.error({
-                                title: updatePwdData,
-                                time: 8000,
-                            })
-                        } else {
-                            this.oldPassword = '';
-                            this.newPassword = '';
-                            this.newPasswordConfirm = '';
-                            this.isValid = false;
-                            this.dialog = false;
-                            this.flashMessage.success({
-                                title: "Mise à jour effectuée",
-                                time: 8000,
-                            })
-                        }
+                        this.oldPassword = '';
+                        this.newPassword = '';
+                        this.newPasswordConfirm = '';
+                        this.isValid = false;
+                        this.dialog = false;
+                        this.flashMessage.success({
+                            title: "Mise à jour effectuée",
+                            time: 8000,
+                        })
                     }
                 }
             } catch (error) {
