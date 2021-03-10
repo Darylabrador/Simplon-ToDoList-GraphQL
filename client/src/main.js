@@ -1,8 +1,18 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import Vuetify from 'vuetify';
+import Router from './router';
+import Layout from './layouts/Layout.vue';
+import 'vuetify/dist/vuetify.min.css';
+import FlashMessage from '@smartweb/vue-flash-message';
 
-Vue.config.productionTip = false
+// Vue config
+Vue.use(Vuetify);
+Vue.use(FlashMessage);
 
+// Main component
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+    el: '#app',
+    vuetify: new Vuetify({}),
+    router: Router,
+    render: h => h(Layout)
+});
