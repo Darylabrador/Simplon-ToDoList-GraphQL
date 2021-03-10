@@ -45,65 +45,70 @@ export default {
             try {
                 const graphqlQuery = {
                     query: `
-                    { 
-                        tasks { 
-                            id 
-                            title 
-                            description 
-                            done 
+                    query{
+                        tasks{
+                            id
+                            title
+                            description
+                            done
                             deadline
-                            priority {
-                                id 
+                            priority{
+                                id
                                 label
-                            } 
-                            user {
-                                id 
+                            }
+                            user{
+                                id
                                 pseudo
                             }
                         }
                     }`,
                 };
-                const taskRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                if(taskRequest.data.errors){
-                    if (taskRequest.data.errors[0].extensions.category == "authentication"){
+                
+                // const taskRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
+                const taskRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const taskErrors = taskRequest.data.errors;
+     
+                if (taskErrors) {
+                    if (taskErrors[0].status == 401) {
                         localStorage.clear();
                         this.$emit('unathorized', false);
                         return this.$router.push('/connexion');
-                    }
+                    } 
                 } else {
-                    const taskData  =  taskRequest.data.data.tasks;
-                    this.tasks      = taskData;
+                    const taskData = taskRequest.data.data.tasks;
+                    this.tasks = taskData;
                 }
             } catch (error) {
-                // console.log(error)
-                // this.flashMessage.error({
-                //     title: "Ressource indisponible",
-                //     time: 8000,
-                // })
+                localStorage.clear();
+                this.$emit('unathorized', false);
+                return this.$router.push('/connexion');
             }
         },
         async setSelectPriority() {
             try {
                 const graphqlQuery = {
-                    query: `{priorities{id label}} `
+                    query: `
+                    query{
+                        priorities{id label}
+                    }`
                 };
-                const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                
-                if (selectRequest.data.errors) {
-                    // this.flashMessage.error({
-                    //     title: selectRequest.data.errors[0].message,
-                    //     time: 8000,
-                    // })
+
+                // const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
+                const selectRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const selectErrors = selectRequest.data.errors;
+
+                if (selectErrors) {
+                    this.flashMessage.error({
+                        title: selectErrors[0].message,
+                        time: 8000,
+                    })
                 } else {
                     const selectData = selectRequest.data.data.priorities;
                     selectData.unshift({ id: "", label: "Tous" })
                     this.items = selectData;
-                } 
+                }
             } catch (error) {
-                // this.flashMessage.error({
-                //     title: "Ressource indisponible",
-                //     time: 8000,
-                // })
+                // console.log(error)
             }
         },
         addtask(){
@@ -125,27 +130,27 @@ export default {
             try {
                 const graphqlQuery = {
                     query: `
-                    {
-                        tasks(where: { column: PRIORITY_ID, operator: EQ, value: ${priorityId} }) {
+                    query{
+                        filterTask( priorityId: ${priorityId} }) {
                             id title description done deadline priority{id label} user{id pseudo}
                         }
                     }`
                 };
-                const filterRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                if (filterRequest.data.errors) {
-                    // this.flashMessage.error({
-                    //     title: filterRequest.data.errors[0].message,
-                    //     time: 8000,
-                    // })
+                // const filterRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
+                const filterRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const filterErrors = filterRequest.data.errors;
+
+                if (filterErrors) {
+                    this.flashMessage.error({
+                        title: filterErrors[0].message,
+                        time: 8000,
+                    })
                 } else {
                     const filterData = filterRequest.data.data.tasks;
                     this.tasks = filterData;
-                } 
+                }
             } catch (error) {
-                // this.flashMessage.error({
-                //     title: "Ressource indisponible",
-                //     time: 8000,
-                // })
+                // console.log(error)
             }
         },
         refreshFront() {

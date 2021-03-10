@@ -16,8 +16,8 @@ const Task      = require('../models/task');
 // Setting relation between models
 User.hasMany(Task);
 Priority.hasMany(Task);
-Task.belongsTo(User, {foreignKey: 'userId'});
-Task.belongsTo(Priority, {foreignKey: 'priorityId'});
+Task.belongsTo(User, {foreignKey: 'userId', as: 'user'});
+Task.belongsTo(Priority, {foreignKey: 'priorityId', as: 'priority'});
 
 // Send mail configuration
 const transporter = nodemailer.createTransport(sengridTransport({
@@ -353,7 +353,7 @@ module.exports = {
 
             const task = await Task.findOne({
                 where: {id: createdTaskInfo.id},
-                include: [{model: Priority},{model: User}]
+                include: [{ model: Priority, as: 'priority' }, { model: User, as: 'user' }]
             });
 
             return task;
@@ -377,7 +377,7 @@ module.exports = {
 
             const task = await Task.findOne({
                 where: { id: updatedTask.id },
-                include: [{ model: Priority }, { model: User }]
+                include: [{ model: Priority, as: 'priority' }, { model: User, as: 'user' }]
             });
             return task;
         } catch (err) {
@@ -397,7 +397,7 @@ module.exports = {
             
             const task = await Task.findOne({
                 where: { id: updatedTask.id },
-                include: [{ model: Priority }, { model: User }]
+                include: [{ model: Priority, as: 'priority' }, { model: User, as: 'user' }]
             });
             return task;
         } catch (err) {
@@ -408,7 +408,7 @@ module.exports = {
         try {
             const taskExist = await Task.findOne({ 
                 where: { id },
-                include: [{ model: Priority }, { model: User }]
+                include: [{ model: Priority, as: 'priority' }, { model: User, as: 'user' }]
             });
             if (!taskExist) {
                 const error = new Error('Tâche inexistante');
@@ -490,8 +490,9 @@ module.exports = {
             }
             const taskList = await Task.findAll({
                 order: [['deadline', 'ASC']],
-                include: [{ model: Priority }, { model: User }]
+                include: [{ model: Priority, as: 'priority' }, { model: User, as: 'user' }]
             });
+
             return taskList;
         } catch (err) {
             throw err;
@@ -512,7 +513,7 @@ module.exports = {
             const taskList = await Task.findAll({
                 where: { priorityId },
                 order: [['deadline', 'ASC']],
-                include: [{ model: Priority }, { model: User }]
+                include: [{ model: Priority, as: 'priority' }, { model: User, as: 'user' }]
             });
             return taskList;
         } catch (err) {

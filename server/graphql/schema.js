@@ -14,13 +14,11 @@ module.exports = buildSchema(`
         verifiedAt: DateTime
         created_at: DateTime
         updated_at: DateTime
-        tasks: [Task!]!
     }
 
     type Priority {
         id: ID!
         label: String!
-        tasks: [Task!]!
     }
 
     type Task {
@@ -29,8 +27,8 @@ module.exports = buildSchema(`
         description: String!
         deadline: Date!
         done: Boolean
-        user: User!
-        priority: Priority!
+        user: User
+        priority: Priority
     }
 
     input UserInputData {
@@ -67,12 +65,12 @@ module.exports = buildSchema(`
     }
 
     type RootQuery {
-        users: [User!]!
-        priorities: [Priority!]!
-        tasks: [Task!]!
+        users: [User]
+        priorities: [Priority]
+        tasks: [Task]
         user(id: ID!): User
         priority(id: ID!): Priority
-        filterTask(priorityId: Int!): [Task!]!
+        filterTask(priorityId: Int!): [Task]
     }
 
     type RootMutation {
