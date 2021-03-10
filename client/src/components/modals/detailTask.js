@@ -47,12 +47,15 @@ export default{
         async setSelectPriority() {
             try {
                 const graphqlQuery = {
-                    query: `{priorities{id label}} `
+                    query: `query{priorities{id label}} `
                 };
-                const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                if (selectRequest.data.errors) {
+                // const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
+                const selectRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const selectErrors = selectRequest.data.errors;
+
+                if (selectErrors) {
                     this.flashMessage.error({
-                        title: selectRequest.data.errors[0].message,
+                        title: selectErrors[0].message,
                         time: 8000,
                     })
                 } else {
@@ -71,20 +74,23 @@ export default{
                 const graphqlQuery = {
                     query: `
                     mutation{
-                        updateTask(
+                        updateTask(updateTaskInput: {
                             id: ${this.taskInfo.id} 
                             title: "${this.title}" 
                             description:"${this.description}"
                             deadline: "${this.date}"
-                            priority_id: ${this.priority}
-                        )
+                            priorityId: ${this.priority}
+                        })
                         {id title description done deadline priority{id label} user{id pseudo}}
                     }`
                 };
-                const updateRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                if (updateRequest.data.errors) {
+                // const updateRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
+                const updateRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const updateTaskError = updateRequest.data.errors;
+
+                if (updateTaskError) {
                     this.flashMessage.error({
-                        title: updateRequest.data.errors[0].message,
+                        title: updateTaskError[0].message,
                         time: 8000,
                     })
                 } else {
