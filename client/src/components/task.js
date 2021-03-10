@@ -23,22 +23,24 @@ export default {
                 const graphqlQuery = {
                     query: `
                     mutation{
-                        setTaskStatus(
+                        setTaskStatus(statusTaskInput: {
                             id: ${taskId}
                             done: false
-                        )
+                        })
                         {id title description deadline done priority{id label} user{id pseudo}}
                     }`
                 };
-                const undoRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const undoData = undoRequest.data.data.setTaskStatus;
+                // const undoRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
+                const undoRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const undoErrors = undoRequest.data.errors;
 
-                if (undoRequest.data.errors) {
+                if (undoErrors) {
                     this.flashMessage.error({
-                        title: undoRequest.data.errors[0].message,
+                        title: undoErrors[0].message,
                         time: 8000,
                     })
                 } else {
+                    const undoData = undoRequest.data.data.setTaskStatus;
                     this.$emit('undoTask', undoData);
                 }
             } catch (error) {
@@ -53,23 +55,25 @@ export default {
                 const graphqlQuery = {
                     query: `
                 mutation{
-                    setTaskStatus(
+                    setTaskStatus(statusTaskInput: {
                         id: ${taskId}
                         done: true
-                    )
+                    })
                     {id title description deadline done priority{id label} user{id pseudo}}
                 }`
                 };
-                const finishRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const finishData = finishRequest.data.data.setTaskStatus;
+                // const finishRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
+                const finishRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const finishErrors = finishRequest.data.errors;
 
-                if (finishRequest.data.errors) {
+                if (finishErrors) {
                     this.flashMessage.error({
-                        title: finishRequest.data.errors[0].message,
+                        title: finishErrors[0].message,
                         time: 8000,
                     })
                 } else {
-                    this.$emit('finishTask', finishData); 
+                    const finishData = finishRequest.data.data.setTaskStatus;
+                    this.$emit('finishTask', finishData);
                 }
             } catch (error) {
                 this.flashMessage.error({
