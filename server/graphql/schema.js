@@ -27,8 +27,8 @@ module.exports = buildSchema(`
         description: String!
         deadline: Date!
         done: Boolean
-        user: User
-        priority: Priority
+        user: User!
+        priority: Priority!
     }
 
     input UserInputData {
@@ -65,12 +65,12 @@ module.exports = buildSchema(`
     }
 
     type RootQuery {
-        users: [User]
-        priorities: [Priority]
-        tasks: [Task]
-        user(id: ID!): User
-        priority(id: ID!): Priority
-        filterTask(priorityId: Int!): [Task]
+        users: [User!]!
+        priorities: [Priority!]!
+        tasks: [Task!]!
+        user(id: ID!): User!
+        priority(id: ID!): Priority!
+        filterTask(priorityId: Int!): [Task!]!
     }
 
     type RootMutation {
