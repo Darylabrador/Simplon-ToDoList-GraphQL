@@ -30,17 +30,16 @@ export default {
                         }
                     `,
                 };
-                const verifyRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
-                const verifyData = verifyRequest.data.data.verifyMail;
-   
-                if (verifyData[0] == "0") {
-                    this.message = verifyData[1];
-                }
+                // const verifyRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
+                const verifyRequest = await Axios.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const verifyErrors = verifyRequest.data.errors;
 
-                if (verifyData[0] == "1") {
-                    this.message = verifyData[1];
+                if (verifyErrors) {
+                    this.message = verifyErrors[0].message;
+                } else {
+                    const verifyData = verifyRequest.data.data.verifyMail;
+                    this.message = verifyData;
                 }
-                
             } catch (error) {
                 this.flashMessage.error({
                     title: "Impossible d'effectuer cette action",

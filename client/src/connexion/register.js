@@ -39,34 +39,35 @@ export default {
                 if (this.valid) {
                     const graphqlQuery = {
                         query: `
-                            mutation{
-                                createUser(
-                                    pseudo: "${this.pseudo}" 
-                                    email: "${this.email}" 
-                                    password: "${this.password}"
-                                    passwordConfirm: "${this.passwordConfirm}"
-                                )
-                            }
+                        mutation{
+                            createUser(userInput: {
+                                pseudo: "${this.pseudo}" 
+                                email: "${this.email}" 
+                                password: "${this.password}"
+                                passwordConfirm: "${this.passwordConfirm}"
+                            })
+                        }
                         `,
                     };
-                    const registerRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
-                    const registerData = registerRequest.data.data.createUser;
-            
-                    if (registerData[0] == "0") {
+
+                    // const registerRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
+                    const registerRequest = await Axios.post(`http://localhost:3000/graphql`, graphqlQuery);
+                    const registerErrors = registerRequest.data.errors;
+
+                    if (registerErrors) {
                         this.flashMessage.error({
-                            title: registerData[1],
+                            title: registerErrors[0].message,
                             time: 8000,
                         })
-                    }
-
-                    if (registerData[0] == "1") {
+                    } else {
+                        const registerData = registerRequest.data.data.createUser;
                         this.pseudo = "";
                         this.email = "";
                         this.password = "";
                         this.password = "";
                         this.$router.push(this.loginPath)
                         this.flashMessage.success({
-                            title: registerData[1],
+                            title: registerData,
                             time: 8000,
                         })
                     }

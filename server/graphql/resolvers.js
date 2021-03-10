@@ -168,9 +168,6 @@ module.exports = {
             existingUser.password = hashedPwd;
             await existingUser.save();
 
-            let currentDate = Date.now().toString();
-            let ipAdress = req.header('x-forwarded-for') || req.connection.remoteAddress;
-
             await transporter.sendMail({
                 to: existingUser.email,
                 from: `${process.env.EMAIL_USER}`,
@@ -178,7 +175,7 @@ module.exports = {
                 html: `
                 <p> 
                     Bonjour ${existingUser.pseudo}, <br>
-                    Votre mot de passe a été modifier le ${currentDate} depuis l'adresse IP ${ipAdress}<br>
+                    Votre mot de passe a été modifier !<br>
                 </p>    
                 <p> 
                     Cordialement, <br>
@@ -230,7 +227,7 @@ module.exports = {
     },
     sendForgottenMail: async function({email}, req){
         try {
-            const user = await User.findOne({ where: { email: email }});
+            const user = await User.findOne({ where: { email }});
             if (!user) {
                 const error = new Error('Adresse email inexistant');
                 throw error;
@@ -296,13 +293,10 @@ module.exports = {
                 throw error;
             }
 
-            const hashedPwd = await bcrypt.hash(passwordInput.password, 12);
+            const hashedPwd = await bcrypt.hash(newPassword, 12);
             user.password   = hashedPwd;
             user.resetToken = null;
             await user.save();
-
-            let currentDate = Date.now().toString();
-            let ipAdress = req.header('x-forwarded-for') || req.connection.remoteAddress;
 
             await transporter.sendMail({
                 to: user.email,
@@ -311,7 +305,7 @@ module.exports = {
                 html: `
                 <p> 
                     Bonjour ${user.pseudo}, <br>
-                    Votre mot de passe a été modifier le ${currentDate} depuis l'adresse IP ${ipAdress}<br>
+                    Votre mot de passe a été modifier !<br>
                 </p>    
                 <p> 
                     Cordialement, <br>
@@ -328,12 +322,12 @@ module.exports = {
         try {
             const user = await User.findOne({ where: { confirmToken }});
             if (!user) {
-                const error = new Error({ success: false, message: 'Jeton invalide' });
+                const error = new Error('Jeton invalide');
                 throw error;
             }
 
             if(user.verifiedAt != null) {
-                const error = new Error({ success: false, message: 'Adresse e-mail déjà vérifier' });
+                const error = new Error('Adresse e-mail déjà vérifier');
                 throw error;
             }
 

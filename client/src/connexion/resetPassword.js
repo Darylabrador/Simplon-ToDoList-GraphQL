@@ -66,25 +66,21 @@ export default {
                                 }
                         `,
                     };
-                    const sendMailRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
-                    const sendMailData = sendMailRequest.data.data.sendForgottenMail;
-                    if (sendMailRequest.data.errors) {
+                    // const sendMailRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
+                    const sendMailRequest = await Axios.post(`http://localhost:3000/graphql`, graphqlQuery);
+                    const sendMailErrors = sendMailRequest.data.errors;
+
+                    if (sendMailErrors) {
                         this.flashMessage.error({
-                            title: sendMailRequest.data.errors[0].message,
+                            title: sendMailErrors[0].message,
                             time: 8000,
                         })
                     } else {
-                        if (sendMailData != null) {
-                            this.flashMessage.success({
-                                title: sendMailData,
-                                time: 8000,
-                            });
-                        } else {
-                            this.flashMessage.error({
-                                title: "Impossible d'effectuer cette action",
-                                time: 8000,
-                            });
-                        }
+                        const sendMailData = sendMailRequest.data.data.sendForgottenMail;
+                        this.flashMessage.success({
+                            title: sendMailData,
+                            time: 8000,
+                        });
                     }
                 }
             } catch (error) {
@@ -109,21 +105,25 @@ export default {
                                 }
                         `,
                     };
-                    const resetRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
-                    const resetData = resetRequest.data.data.resetForgotten;
-                    if (resetData != null) {
+                   
+                    // const resetRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
+                    const resetRequest = await Axios.post(`http://localhost:3000/graphql`, graphqlQuery);
+                    const resetErrors = resetRequest.data.errors;
+
+                    if (resetErrors) {
                         this.flashMessage.error({
-                            title: resetData,
+                            title: resetErrors[0].message,
                             time: 8000,
                         })
                     } else {
+                        const resetData = resetRequest.data.data.resetForgotten;
                         this.isValid = false;
                         this.resetToken = '';
                         this.isTokenExist = false;
                         this.password = '';
                         this.passwordConfirm = '';
                         this.flashMessage.success({
-                            title: "Mise à jour effectuée",
+                            title: resetData,
                             time: 8000,
                         });
                         this.$router.push("/connexion");
