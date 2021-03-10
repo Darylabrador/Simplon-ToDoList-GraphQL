@@ -47,24 +47,23 @@ export default{
         async setSelectPriority() {
             try {
                 const graphqlQuery = {
-                    query: `{priorities{id label}} `
+                    query: `query{priorities{id label}} `
                 };
-                const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                if (selectRequest.data.errors) {
+                // const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
+                const selectRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const selectErrors = selectRequest.data.errors;
+
+                if (selectErrors) {
                     this.flashMessage.error({
-                        title: selectRequest.data.errors[0].message,
+                        title: selectErrors[0].message,
                         time: 8000,
                     })
                 } else {
                     const selectData = selectRequest.data.data.priorities;
                     this.items = selectData;
-                } 
-               
+                }
             } catch (error) {
-                // this.flashMessage.error({
-                //     title: "Ressource indisponible",
-                //     time: 8000,
-                // })
+                // console.log(error)
             }
         },
         async addTask() {
@@ -73,19 +72,22 @@ export default{
                     const graphqlQuery = {
                         query: `
                         mutation{
-                            createTask(
+                            createTask(taskInput: {
                                 title: "${this.title}" 
                                 description: "${this.description}" 
                                 deadline: "${this.date}" 
-                                priority_id: ${this.priority}
-                            )
+                                priorityId: ${this.priority}
+                            })
                             {id title description deadline done priority{id label} user{id pseudo}}
                         }`
                     };
-                    const addTaskRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                    if (addTaskRequest.data.errors) {
+                    // const addTaskRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
+                    const addTaskRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                    const addTaskErrors = addTaskRequest.data.errors;
+
+                    if (addTaskErrors) {
                         this.flashMessage.error({
-                            title: addTaskRequest.data.errors[0].message,
+                            title: addTaskErrors[0].message,
                             time: 8000,
                         })
                     } else {
@@ -97,13 +99,10 @@ export default{
                             time: 8000,
                         });
                         this.$emit('addtask', addTaskData);
-                    } 
+                    }
                 }
             } catch (error) {
-                // this.flashMessage.error({
-                //     title: "Ressource indisponible",
-                //     time: 8000,
-                // })
+            //    console.log(error)
             }
         },
         isEmpty(title, description, date, priority){
