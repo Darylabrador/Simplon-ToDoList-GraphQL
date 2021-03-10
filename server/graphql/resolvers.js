@@ -215,7 +215,7 @@ module.exports = {
             throw err;
         }
     },
-    logout: async function() {
+    logout: async function(args, req) {
         try {
             if (!req.isAuth) {
                 const error = new Error('Not authenticated');
