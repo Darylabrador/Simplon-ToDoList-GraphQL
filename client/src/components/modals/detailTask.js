@@ -13,6 +13,7 @@ export default{
             isUpdate: false,
             dialog: false,
             menu2: false,
+            id: this.taskInfo.id,
             date: this.taskInfo.deadline,
             priority: this.taskInfo.priority.id,
             title: this.taskInfo.title,
@@ -73,16 +74,23 @@ export default{
             try {
                 const graphqlQuery = {
                     query: `
-                    mutation{
+                    mutation updateTask($id: ID!, $title: String!, $description: String!, $deadline: Date!, $priorityId: Int!){
                         updateTask(updateTaskInput: {
-                            id: ${this.taskInfo.id} 
-                            title: "${this.title}" 
-                            description:"${this.description}"
-                            deadline: "${this.date}"
-                            priorityId: ${this.priority}
-                        })
+                            id: $id
+                            title: $title
+                            description: $description
+                            deadline: $deadline
+                            priorityId: $priorityId
+                        })  
                         {id title description done deadline priority{id label} user{id pseudo}}
-                    }`
+                    }`,
+                    variables: {
+                        id: this.id,
+                        title: this.title,
+                        description: this.description,
+                        deadline: this.date,
+                        priorityId: Number(this.priority),
+                    }
                 };
                 // const updateRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const updateRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
