@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="dialog" persistent max-width="450">
+    <v-dialog v-model="dialog" persistent max-width="500">
       <template v-slot:activator="{ on, attrs }">
         <v-btn icon color="dark" v-bind="attrs" v-on="on">
             <v-icon>mdi-eye</v-icon>
