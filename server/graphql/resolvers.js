@@ -505,7 +505,7 @@ module.exports = {
                 error.code = 401;
                 throw error;
             }
-            const priorityExist = await Priority.findOne({ where: { priorityId } });
+            const priorityExist = await Priority.findOne({ where: { id: priorityId } });
             if (!priorityExist) {
                 const error = new Error('Priorité inexistante');
                 throw error;

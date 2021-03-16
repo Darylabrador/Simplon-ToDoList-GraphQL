@@ -131,7 +131,7 @@ export default {
                 const graphqlQuery = {
                     query: `
                     query{
-                        filterTask( priorityId: ${priorityId} }) {
+                        filterTask( priorityId: ${priorityId} ) {
                             id title description done deadline priority{id label} user{id pseudo}
                         }
                     }`
@@ -146,7 +146,7 @@ export default {
                         time: 8000,
                     })
                 } else {
-                    const filterData = filterRequest.data.data.tasks;
+                    const filterData = filterRequest.data.data.filterTask;
                     this.tasks = filterData;
                 }
             } catch (error) {
