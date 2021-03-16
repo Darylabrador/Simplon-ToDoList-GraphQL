@@ -50,8 +50,7 @@ export default {
                         `,
                     };
 
-                    // const registerRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
-                    const registerRequest = await Axios.post(`http://localhost:3000/graphql`, graphqlQuery);
+                    const registerRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
                     const registerErrors = registerRequest.data.errors;
 
                     if (registerErrors) {

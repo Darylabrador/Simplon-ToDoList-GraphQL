@@ -30,8 +30,7 @@ export default {
                         {id title description deadline done priority{id label} user{id pseudo}}
                     }`
                 };
-                // const undoRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const undoRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const undoRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const undoErrors = undoRequest.data.errors;
 
                 if (undoErrors) {
@@ -62,8 +61,7 @@ export default {
                         {id title description deadline done priority{id label} user{id pseudo}}
                     }`
                 };
-                // const finishRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const finishRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const finishRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const finishErrors = finishRequest.data.errors;
 
                 if (finishErrors) {

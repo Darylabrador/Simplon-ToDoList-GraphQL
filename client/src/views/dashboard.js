@@ -64,8 +64,7 @@ export default {
                     }`,
                 };
                 
-                // const taskRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const taskRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const taskRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const taskErrors = taskRequest.data.errors;
      
                 if (taskErrors) {
@@ -93,8 +92,7 @@ export default {
                     }`
                 };
 
-                // const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const selectRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const selectErrors = selectRequest.data.errors;
 
                 if (selectErrors) {
@@ -136,8 +134,7 @@ export default {
                         }
                     }`
                 };
-                // const filterRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const filterRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const filterRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const filterErrors = filterRequest.data.errors;
 
                 if (filterErrors) {

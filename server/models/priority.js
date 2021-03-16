@@ -2,7 +2,7 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 
 const sequelize = require('../config/database');
 
-const Priority = sequelize.define('Priority', {
+const Priority = sequelize.define('priority', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

@@ -28,8 +28,7 @@ export default{
                         {id title description deadline done priority{id label} user{id pseudo}}
                     }`
                 };
-                // const deleteRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const deleteRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const deleteRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const deleteTaskErrors = deleteRequest.data.errors;
 
                 if (deleteTaskErrors) {

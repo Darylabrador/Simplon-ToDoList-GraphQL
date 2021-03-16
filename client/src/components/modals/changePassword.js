@@ -59,8 +59,7 @@ export default{
                             })
                         }`
                     };
-                    // const updatePwdRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                    const updatePwdRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                    const updatePwdRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                     const updatePwdErrors = updatePwdRequest.data.errors;
 
                     if (updatePwdErrors) {

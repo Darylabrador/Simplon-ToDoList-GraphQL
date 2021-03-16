@@ -39,8 +39,7 @@ export default {
                         `,
                     };
 
-                    // const loginRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
-                    const loginRequest = await Axios.post(`http://localhost:3000/graphql`, graphqlQuery);
+                    const loginRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
                     const loginErrors = loginRequest.data.errors;
 
                     if (loginErrors) {

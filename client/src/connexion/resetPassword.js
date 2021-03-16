@@ -66,8 +66,7 @@ export default {
                                 }
                         `,
                     };
-                    // const sendMailRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
-                    const sendMailRequest = await Axios.post(`http://localhost:3000/graphql`, graphqlQuery);
+                    const sendMailRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
                     const sendMailErrors = sendMailRequest.data.errors;
 
                     if (sendMailErrors) {
@@ -106,8 +105,7 @@ export default {
                         `,
                     };
                    
-                    // const resetRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
-                    const resetRequest = await Axios.post(`http://localhost:3000/graphql`, graphqlQuery);
+                    const resetRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
                     const resetErrors = resetRequest.data.errors;
 
                     if (resetErrors) {

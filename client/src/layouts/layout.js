@@ -19,8 +19,7 @@ export default {
                 const graphqlQuery = {
                     query: `mutation{logout}`,
                 };
-                // const loggoutRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const loggoutRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const loggoutRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const loggoutErrors  = loggoutRequest.data.errors;
 
                 if (loggoutErrors) {

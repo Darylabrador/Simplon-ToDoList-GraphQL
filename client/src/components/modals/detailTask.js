@@ -50,8 +50,7 @@ export default{
                 const graphqlQuery = {
                     query: `query{priorities{id label}} `
                 };
-                // const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const selectRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const selectRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const selectErrors = selectRequest.data.errors;
 
                 if (selectErrors) {
@@ -92,8 +91,7 @@ export default{
                         priorityId: Number(this.priority),
                     }
                 };
-                // const updateRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
-                const updateRequest = await apiService.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const updateRequest = await apiService.post(`${location.origin}/graphql`, graphqlQuery);
                 const updateTaskError = updateRequest.data.errors;
 
                 if (updateTaskError) {

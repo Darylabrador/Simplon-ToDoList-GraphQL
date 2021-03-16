@@ -30,8 +30,7 @@ export default {
                         }
                     `,
                 };
-                // const verifyRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
-                const verifyRequest = await Axios.post(`http://localhost:3000/graphql`, graphqlQuery);
+                const verifyRequest = await Axios.post(`${location.origin}/graphql`, graphqlQuery);
                 const verifyErrors = verifyRequest.data.errors;
 
                 if (verifyErrors) {
